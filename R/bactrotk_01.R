@@ -18,7 +18,7 @@ setwd("./R")
 # (2) quand tu utilises une focntion il est fortement recommandé d'utiliser
 # les noms des arguments et de ne pas faire de raccourcis
 # read.csv("Luttes.csv", dec = ",", header = T) devient
-read.csv(file = "Luttes.csv", dec = ",", header = TRUE)
+# read.csv(file = "Luttes.csv", dec = ",", header = TRUE)
 # (3) dans ton fichier Luttes.csv il faut que chaque abbréviation soit unique
 # sinon on ne peut pas les utiliser sans spécifier la modalité, par exemple
 # TEM devient TEM_Mal, TEM devient TEM_DDVPetME, ...
@@ -44,6 +44,21 @@ ag01 <- list(
   typoverger = "extensif", # (7) ajouter des noms de typo dans le fichier Typologievergers.csv
   techniques = c("TEM_Mal", "TEM_DDVPetME")
 )
+
+# Fonction pour avoir le score B. dorsalis en fonction des techniques choisies
+# Cette fonction prend comme argument monTK, un vecteur de type texte qui 
+# contient la liste des abbréviations des techniques choisies. Elle retourne
+# un nombre correspondant au score (somme des Impact.Bd).
+get_technique_score <- function(monTK){
+  score <- sum(techniques[techniques$LutteAbr %in% monTK,]$Impact.Bd)
+  return(score)
+}
+
+get_technique_score(monTK = ag01[[2]])
+
+# je te laisse poursuivre à partir de là.
+
+
 #View(ag01)
 #Impact de ag001 sur Bactrocera dorsalis
 Impactag01 <- sum(techniques[c(1,16),6]) # (8) on verra cela ensuite, dis moi quand le reste (1:7) est fait
