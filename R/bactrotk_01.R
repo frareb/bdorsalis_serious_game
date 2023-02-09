@@ -18,16 +18,17 @@ setwd("./R")
 # (2) quand tu utilises une focntion il est fortement recommandé d'utiliser
 # les noms des arguments et de ne pas faire de raccourcis
 # read.csv("Luttes.csv", dec = ",", header = T) devient
-# read.csv(file = "Luttes.csv", dec = ",", header = TRUE)
+read.csv(file = "Luttes.csv", dec = ",", header = TRUE)
 # (3) dans ton fichier Luttes.csv il faut que chaque abbréviation soit unique
 # sinon on ne peut pas les utiliser sans spécifier la modalité, par exemple
 # TEM devient TEM_Mal, TEM devient TEM_DDVPetME, ...
 
 techniques <- read.csv(file = "Luttes.csv", dec = ",", header = TRUE)
 str(techniques)
-# View(techniques) # (4) pas de View sans le commenter, sinon cela exclue les
+#View(techniques) # Showing 45 entries (45 modalités différentes), 6 total columns (luttes, abréviations luttes, decription luttes, modalités, description modalités et impact sur Bactrocera dorsalis)
+# (4) pas de View sans le commenter, sinon cela exclue les
 # personnes qui ne travaillent pas avec Rstudio : le code doit être portable.
-# summary(techniques) # (5) quel intérêt ?
+# summary(techniques) # (5) quel intérêt ? aucun...
 
 #Typologie vergers
 typoverger <- read.csv(file = "Typologievergers.csv", dec = ",", header = TRUE) # (1) et (2)
@@ -43,7 +44,7 @@ ag01 <- list(
   typoverger = "extensif", # (7) ajouter des noms de typo dans le fichier Typologievergers.csv
   techniques = c("TEM_Mal", "TEM_DDVPetME")
 )
-# View(ag01)
+#View(ag01)
 #Impact de ag001 sur Bactrocera dorsalis
 Impactag01 <- sum(techniques[c(1,16),6]) # (8) on verra cela ensuite, dis moi quand le reste (1:7) est fait
 Impactag01
@@ -51,11 +52,11 @@ Impactag01
 #Agriculteur 2
 ag02 <- list (techniques[c(4,22, 33, 40),], typoverger[,(2)])
 View(ag02)
-Impactag02 <- sum(techniques[c(1,16),6])
+Impactag02 <- sum(techniques[c(4,22, 33, 40),6])
 Impactag02
 
-#Impact d'un agriculteur sur l'autre : Si l'agriculteur 2 n'a pas atteint le score minimale des bonnes pratiques (ici 5), impact négatif sur l'agriculteur 1
-if(Impactag02 < 5) {
+#Impact d'un agriculteur sur l'autre : Si l'agriculteur 2 n'a pas atteint le score minimale des bonnes pratiques (ici 6), impact négatif sur l'agriculteur 1
+if(Impactag02 < 6) {
   Impactfinal <- Impactag01 - 2
   print(Impactfinal)
   print ("Impact negatif entre agriculteurs")
