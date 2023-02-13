@@ -4,42 +4,20 @@
 # agricoles
 # -----------------------------------------------------------------------------
 
-# setwd("C:/Users/etudiant/Documents/2023_AudreyNGom/github/bdorsalis_serious_game/R")
-# (0) inutile de spécifier un chemin complet, tu peux simplement mettre un  
-# chemin relatif de cette façon cela fonctionne chez tout le monde : 
 setwd("./R")
 
 # Techniques, col 1:22 = Luttes directes, col 23:45 : Luttes indirectes
 #Luttes directes Col 1:10 = TEM; 11:12 = TE; 13:14 = TPT; 15:18 = IN; 19:21 = LB ; 22 = MSQ
 #Luttes indirectes Col 23:26 = VP ; 27 = VNA; 28:33 = PRO;34:41 = TRAISOL;42=TLM; 43 = RP2; 44 = TRASOL; 45 : RPF
 
-# (1) pas de majuscule pour commencer un nom de variable : Techniques devient 
-# techniques
-# (2) quand tu utilises une focntion il est fortement recommandé d'utiliser
-# les noms des arguments et de ne pas faire de raccourcis
-# read.csv("Luttes.csv", dec = ",", header = T) devient
-# read.csv(file = "Luttes.csv", dec = ",", header = TRUE)
-# (3) dans ton fichier Luttes.csv il faut que chaque abbréviation soit unique
-# sinon on ne peut pas les utiliser sans spécifier la modalité, par exemple
-# TEM devient TEM_Mal, TEM devient TEM_DDVPetME, ...
-
 techniques <- read.csv(file = "Luttes.csv", dec = ",", header = TRUE)
 str(techniques)
-#View(techniques) # Showing 45 entries (45 modalités différentes), 6 total columns (luttes, abréviations luttes, decription luttes, modalités, description modalités et impact sur Bactrocera dorsalis)
-# (4) pas de View sans le commenter, sinon cela exclue les
-# personnes qui ne travaillent pas avec Rstudio : le code doit être portable.
-# summary(techniques) # (5) quel intérêt ? aucun...
 
 #Typologie vergers
 typoverger <- read.csv(file = "Typologievergers.csv", dec = ",", header = TRUE) # (1) et (2)
-# View(typoverger) # (4)
-#Attention, dans ce tableau, variables présentes qui peuvent changer en fonction des années
 
 #Pour chaque agriculteur, on lui assigne une typologie et plusieurs modalités de luttes
 #Agriculteur 1
-# (6) en utilisant uniquement l'abbréviation, d'où l'intérêt à qu'elle soit 
-# unique
-# ag01 <- list (techniques[c(1,16),], typoverger[,(4)])
 ag01 <- list(
   typoverger = "extensif", # (7) ajouter des noms de typo dans le fichier Typologievergers.csv
   techniques = c("TEM_Mal", "TEM_DDVPetME")
@@ -53,7 +31,6 @@ get_technique_score <- function(monTK){
   score <- sum(techniques[techniques$LutteAbr %in% monTK,]$Impact.Bd)
   return(score)
 }
-
 get_technique_score(monTK = ag01[[2]])
 
 # je te laisse poursuivre à partir de là.

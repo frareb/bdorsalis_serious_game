@@ -1,0 +1,15 @@
+ITK ,ITKAbr,DescriptionITK,Modalites,DescriptionM,Impact Bd
+Irrigation,IRR,,Irrigation,,0
+Fertilisation,FERTI,,Fertilisation,,0
+Desherbage,DSB,,Desherbage,,1
+Prophylaxie ,PRO_Enfouis,Collecte des mangues tombees,Enfouissement,,2
+Prophylaxie ,PRO_Incine,Collecte des mangues tombees,Incineration,,2
+Prophylaxie ,PRO_Betail,Collecte des mangues tombees,Alimentation du betail,,2
+Prophylaxie ,PRO_Sac,Collecte des mangues tombees,Sac poubelle,,2
+Prophylaxie ,PRO_Coin,Collecte des mangues tombees,Depose dans coin,,-1
+Prophylaxie ,PRO_Augment,Collecte des mangues tombees,Augmentorium,,3
+Taille des manguiers,TAILLE,Taille et elagage pour reduire condition favorable Bd,Taille,,2
+Travail du sol,TRASOL,Labourage peu profond pour éliminer les larves par enfouissement,TravailSol,,1
+Recolte precoce,REPREC,Recolte precoce des parcelles avant le pic d infestation des mouches des fruits.,RecolteP,,1
+Récolte,RE ,,Recolte,,1
+Egouttage des fruits récoltés,EGOUTT,,Egouttage,,1

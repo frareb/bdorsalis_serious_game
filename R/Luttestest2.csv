@@ -1,0 +1,55 @@
+Luttes,LutteAbr,DescriptionL,Modalites,DescriptionM,Impact Bd
+Techniques d'élimination des mâles,TEM_Mal,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Malatrap,"75% de méthyl eugénol (paraphéromone)
+25% de malathion (insecticide organophosphoré)",2
+Techniques d'élimination des mâles,TEM_DDVPetME,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",DDVPetME,Methyl Eugénol + DDVP (Dichlovos à 20% w/w),1
+Techniques d'élimination des mâles,TEM_Musc,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Muscade_Insecticide,Noix de muscade + Net ou autres insecticides,1
+Techniques d'élimination des mâles,TEM_Koppert,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Koppert_Attracteur de mouches des fruits,A base de spinosad,1
+Techniques d'élimination des mâles,TEM_Sithion,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Sithion 57 EC ,A base de malathion,1
+Techniques d'élimination des mâles,TEM_Timay,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Timay,A base de spinosad,1
+Techniques d'élimination des mâles,TEM_Autres,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Autres,,0
+Techniques d'élimination des mâles,TEM_BicaMal,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Bicarbonate_Malatrap,,1
+Techniques d'élimination des mâles,TEM_BasiDiGo,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Basilique_diméthoate_gomme arabique,,1
+Techniques d'élimination des mâles,TEM_BasiIn,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Basilique_insecticide,,1
+Technique d'élimination,TE_InfuBasi,Attraction des mouches ,Infusion_de_basilique_dans_un_récipient,,1
+Technique d'élimination,TE_GingP,Attraction des mouches ,Base de gingembre_pois de terre,,1
+Traitement par tâche,TPT_Succ,"Attraction et élimination des mouches mâles et femelles qui se nourrissent de
+la substance alimentaire mélangée à l'insecticide.",SuccessAppat/GF120,Insecticide à base de spinosad (0.24 g/l) mélangé à un hydrolysat de protéine (substance alimentaire),2
+Traitement par tâche,TPT_M3,"Attraction et élimination des mouches mâles et femelles qui se nourrissent de
+la substance alimentaire mélangée à l'insecticide.",M3 bait station,Hydrolysat de protéine + alpha cyperméthrine,1
+Insecticides,IN_Huile,Pulvérisation aérienne et terrestre de pesticides pour éliminer les mouches à tous les stades de développement.,Huile de Neem,Bioinsecticide,1
+Insecticides,IN_Feuille,Pulvérisation aérienne et terrestre de pesticides pour éliminer les mouches à tous les stades de développement.,Feuilles de Neem broyees,Bioinsecticide,1
+Insecticides,IN_DioM,Pulvérisation aérienne et terrestre de pesticides pour éliminer les mouches à tous les stades de développement.,Diométhoate,Chimique,0
+Insecticides,IN_DeltaM,Pulvérisation aérienne et terrestre de pesticides pour éliminer les mouches à tous les stades de développement.,Deltamétrine,Chimique,0
+Lutte biologique,LB_Para,Utilisation des insectes prédateurs naturels des mouches des fruits.,Parasitoide,Fopius arisanus,2
+Lutte biologique,LB_Ento,Utilisation des insectes prédateurs naturels des mouches des fruits.,Entomopathogene,Metarhizium anisopliae,1
+Lutte biologique,LB_Nid,Utilisation des insectes prédateurs naturels des mouches des fruits.,ConservationNidPredateurNaturel,Fourmi tisserande,3
+Moustiquaire,MSQ,Mettre une moustiquaire autour de l arbre pour empecher les mouches de piquer les arbres,Moustiquaire,,0
+Varietes precoces,VP_Amel,Varietes murent avant le pic de Bd,Greffeul,,2
+Varietes precoces,VP_Zill,Varietes murent avant le pic de Bd,Séwal,,2
+Varietes precoces,VP_Bouc,Varietes murent avant le pic de Bd,Boucodiekal,,2
+Varietes precoces,VP_Dieg,Varietes murent avant le pic de Bd,Dieg bou gatt,,2
+Varietes non attractives,VNA_Lime,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Lime de Tahiti,,1
+Varietes non attractives,VNA_Palm,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Palmier ronier,,
+Varietes non attractives,VNA_Coco,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Cocotier,,
+Varietes non attractives,VNA_Sur,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Surelle,,
+Traitement du sol,TRAISOL_Cajou,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Baume de cajou,,1
+Traitement du sol,TRAISOL_Neem,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Neemland rakkal,,1
+Traitement du sol,TRAISOL_HuileN,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Huile de Neem,,1
+Traitement du sol,TRAISOL_Fura,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Furadan (carbofuran),,1
+Traitement du sol,TRAISOL_Autres,Application de biopesticides pour bloquer le développement des pupes dans le sol., Autres pesticides,,0
+Traitement du sol,TRAISOL_Champi,Application de biopesticides pour bloquer le développement des pupes dans le sol.,champignon entomopathogènes,,1
+Traitement du sol,TRAISOL_Nema,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Nématodes,,1
+Traitement du sol,TRAISOL_Cendre,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Cendre issue de la brulure de feuilles au sol,,1
+Recolte precoce,REPREC,Recolte precoce des parcelles avant le pic d infestation des mouches des fruits.,Recolte,,1
+Repulsif,RPF,Repandre de la fumée autour des manguiers pour chasser les mouches,Repulsif,,1
+Poules,POUL,,Poule,,
