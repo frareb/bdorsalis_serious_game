@@ -39,9 +39,9 @@ Varietes precoces,VP_Zill,Varietes murent avant le pic de Bd,Séwal,,2
 Varietes precoces,VP_Bouc,Varietes murent avant le pic de Bd,Boucodiekal,,2
 Varietes precoces,VP_Dieg,Varietes murent avant le pic de Bd,Dieg bou gatt,,2
 Varietes non attractives,VNA_Lime,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Lime de Tahiti,,1
-Varietes non attractives,VNA_Palm,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Palmier ronier,,
-Varietes non attractives,VNA_Coco,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Cocotier,,
-Varietes non attractives,VNA_Sur,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Surelle,,
+Varietes non attractives,VNA_Palm,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Palmier ronier,,1
+Varietes non attractives,VNA_Coco,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Cocotier,,1
+Varietes non attractives,VNA_Sur,Varietes de fruits dont les caracteristiques organoleptiques n attirent pas Bd,Surelle,,1
 Traitement du sol,TRAISOL_Cajou,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Baume de cajou,,1
 Traitement du sol,TRAISOL_Neem,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Neemland rakkal,,1
 Traitement du sol,TRAISOL_HuileN,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Huile de Neem,,1
@@ -50,6 +50,5 @@ Traitement du sol,TRAISOL_Autres,Application de biopesticides pour bloquer le d�
 Traitement du sol,TRAISOL_Champi,Application de biopesticides pour bloquer le développement des pupes dans le sol.,champignon entomopathogènes,,1
 Traitement du sol,TRAISOL_Nema,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Nématodes,,1
 Traitement du sol,TRAISOL_Cendre,Application de biopesticides pour bloquer le développement des pupes dans le sol.,Cendre issue de la brulure de feuilles au sol,,1
-Recolte precoce,REPREC,Recolte precoce des parcelles avant le pic d infestation des mouches des fruits.,Recolte,,1
 Repulsif,RPF,Repandre de la fumée autour des manguiers pour chasser les mouches,Repulsif,,1
-Poules,POUL,,Poule,,
+Poules,POUL,,Poule,,0
