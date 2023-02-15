@@ -27,7 +27,7 @@ str(luttes)
 ag01 <- list(
   typoverger = "extensif", 
   itk = c("PRO_Enfouis", "TAILLE","PRO_Enfouis"),
-  luttes = c("TEM_Mal","VP_Dieg","REPREC", "EGOUTT")
+  luttes = c("TEM_Mal","VP_Dieg", "TRAISOL_Cendre")
 )
 score_depart_ag01 = 8
 
@@ -41,29 +41,29 @@ get_lutte_score <- function(monTK2){
   score <- sum((luttes[luttes$LutteAbr %in% monTK2,]$Impact.Bd))
   return(score)
 }
-L1 <-get_lutte_score(monTK = ag01[[3]])
+L1 <-get_lutte_score(monTK2 = ag01[[3]])
 IL1<-sum(I1,L1)
 
 #Agriculteur 2 (augmentorium coûte 2 et LB aussi)
 ag02 <- list(
   typoverger = "intensif", 
   itk = c( "TAILLE","	PRO_Augment", "PRO_Augment"),
-  luttes = c("TEM_Mal","TPT_Succ","LB_Para","REPREC", "EGOUTT")
+  luttes = c("TEM_Mal","TPT_Succ","LB_Para")
 )
 score_depart_ag02 = 13
 I2 <- get_itk_score(monTK1 = ag02[[2]])
-L2 <-get_lutte_score(monTK = ag02[[3]])
+L2 <-get_lutte_score(monTK2 = ag02[[3]])
 IL2<-sum(I2,L2)
 #Agriculteur 3 
 ag03 <- list(
   typoverger = "cueillette", 
   itk = c( "FERTI","PRO_Coin"),
-  luttes = c("TEM_Mal","TRAISOL_HuileN", "RE")
+  luttes = c("TEM_Mal","TRAISOL_HuileN")
 )
 score_depart_ag03 = 5
 
 I3 <- get_itk_score(monTK1 = ag03[[2]])
-L3 <-get_lutte_score(monTK = ag03[[3]])
+L3 <-get_lutte_score(monTK2 = ag03[[3]])
 IL3<-sum(I3,L3)
 
 #Si l'agriculteur intensif a un score < à 13, il fait perdre 1 point aux agriculteurs voisins, sinon il gagne 1 point
@@ -73,7 +73,7 @@ IL3<-sum(I3,L3)
 
 #Tests (2 façons d'obtenir le même résultat) si les agriculteurs ont atteints leurs objectif en groupe/collectivement
 if ((IL1<9 & IL2<13) | (IL2<13 & IL3<7) | (IL1<9 & IL3<7)) {
-  print ("La présence des mouches a doublé")
+  print ("La présence des mouches a doublé") ### AU LIEU DOUBLE, mettre en fonction de faux. Nb de faux * 2 ou pas de diminution ?
 }else{
   print ("Bien joué, la présence des mouches a diminué par 2")
 }
