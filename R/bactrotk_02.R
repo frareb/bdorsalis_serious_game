@@ -50,32 +50,22 @@ repart_rdt
 
 #Agriculteur 2
 repart_cult[which(repart_cult == "ag02")] <- c(choix_cult_rdt[[1]][c(5,5,6)])
-repart_cult
 repart_rdt[which(repart_rdt == "ag02" ) ] <- c(choix_cult_rdt[[2]][c(5,5,6)])
-repart_rdt 
 #Agriculteur 3
 repart_cult[which(repart_cult == "ag03")] <- c(choix_cult_rdt[[1]][c(1,2,3,5,5,6)])
-repart_cult
 repart_rdt[which(repart_rdt == "ag03" ) ] <- c(choix_cult_rdt[[2]][c(1,2,3,5,5,6)])
-repart_rdt 
 #Agriculteur 4
 repart_cult[which(repart_cult == "ag04")] <- c(choix_cult_rdt[[1]][c(1,2,3)])
-repart_cult
 repart_rdt[which(repart_rdt == "ag04" ) ] <- c(choix_cult_rdt[[2]][c(1,2,3)])
-repart_rdt 
 #Agriculteur 5
 repart_cult[which(repart_cult == "ag05")] <- c(choix_cult_rdt[[1]][c(1)])
-repart_cult
 repart_rdt[which(repart_rdt == "ag05" ) ] <- c(choix_cult_rdt[[2]][c(1)])
-repart_rdt 
 #Agriculteur 6
 repart_cult[which(repart_cult == "ag06")] <- c(choix_cult_rdt[[1]][c(1,9,12,1,5,4,1,1)])
-repart_cult
 repart_rdt[which(repart_rdt == "ag06" ) ] <- c(choix_cult_rdt[[2]][c(1,9,12,1,5,4,1,1)])
-repart_rdt 
 
 #Visualisation des 3 matrices
-resultfinal_repart <- array(data=c(repart_ag,repart_cult,repart_rdt), dim= c(5,5,3))
+resultfinal_repart <- array(data=c(repart_ag,repart_cult,repart_rdt), dim= c(5,5,3), dimnames=list(c("a","b","c","d","e"), c(1,2,3,4,5),c("agriculteurs","cultures","rendement")))
 resultfinal_repart
 
 #Pour l'utilisation de la matrice du rendement
