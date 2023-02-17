@@ -31,23 +31,18 @@ repart_ag
 
 #Repartition des cultures
 repart_cult <-repart_ag
-repart_cult 
 
 choix_cult_rdt <- list (
   variete = c("m_kent","m_keitt", "m_diourou", "m_autres", "m_sierra", "m_papay","m_peche", "anarca","pru_mon", "agru","ma_anu","ica_sene"),
   rendement = c(150,150,120,120,120,120,120,80,40,150,80,80)
 )
-choix_cult_rdt
 
 #Rendement des cultures
 repart_rdt <- repart_ag
 
 #Agriculteur 1
 repart_cult[which(repart_cult == "ag01")] <- c(choix_cult_rdt[[1]][c(1,2,3,8)])
-repart_cult
 repart_rdt[which(repart_rdt == "ag01" ) ] <- c(choix_cult_rdt[[2]][c(1,2,3,8)])
-repart_rdt 
-
 #Agriculteur 2
 repart_cult[which(repart_cult == "ag02")] <- c(choix_cult_rdt[[1]][c(5,5,6)])
 repart_rdt[which(repart_rdt == "ag02" ) ] <- c(choix_cult_rdt[[2]][c(5,5,6)])
