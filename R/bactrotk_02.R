@@ -6,6 +6,89 @@
 
 setwd("./R")
 
+#------------------------------------------------------------------------------------------------------
+#INITIALISATION DU JEU_BASSE CASAMANCE
+#------------------------------------------------------------------------------------------------------
+#ETAPE 1 : CONDITIONS INITIALES
+#ETAPE 1.1, 1.21,1.22 AMENAGEMENT DES PARCELLES
+#------------------------------------------------------------------------------------------------------
+
+#Matrices : répartition des agriculteurs, répartition des cultures, rendement en fonction des cultures 
+#Une case = 0,4 ha (Superficie plantation entre 0.2 et 10.7ha, moyenne est de 1,72ha, O.Ndiage 2020)
+
+#Repartition des agriculteurs
+repart_ag<-matrix( data = NA, nrow = 5, ncol = 5,
+                   byrow = FALSE,
+                   dimnames = list(c("a","b","c","d","e"), c(1,2,3,4,5)))
+
+repart_ag[c(1,2),c(1,2)] <- "ag01"
+repart_ag[c("a"), c(3,4,5)] <- "ag02"
+repart_ag[c("b","c"), c(3,4,5)] <-"ag03"
+repart_ag[c("c","d","e"), c(1)] <-"ag04"
+repart_ag[3,2] <- "ag05"
+repart_ag[c(4,5),c(2,3,4,5)] <- "ag06"
+repart_ag
+
+#Repartition des cultures
+repart_cult <-repart_ag
+repart_cult 
+
+choix_cult_rdt <- list (
+  variete = c("m_kent","m_keitt", "m_diourou", "m_autres", "m_sierra", "m_papay","m_peche", "anarca","pru_mon", "agru","ma_anu","ica_sene"),
+  rendement = c(150,150,120,120,120,120,120,80,40,150,80,80)
+)
+choix_cult_rdt
+
+#Rendement des cultures
+repart_rdt <- repart_ag
+
+#Agriculteur 1
+repart_cult[which(repart_cult == "ag01")] <- c(choix_cult_rdt[[1]][c(1,2,3,8)])
+repart_cult
+repart_rdt[which(repart_rdt == "ag01" ) ] <- c(choix_cult_rdt[[2]][c(1,2,3,8)])
+repart_rdt 
+
+#Agriculteur 2
+repart_cult[which(repart_cult == "ag02")] <- c(choix_cult_rdt[[1]][c(5,5,6)])
+repart_cult
+repart_rdt[which(repart_rdt == "ag02" ) ] <- c(choix_cult_rdt[[2]][c(5,5,6)])
+repart_rdt 
+#Agriculteur 3
+repart_cult[which(repart_cult == "ag03")] <- c(choix_cult_rdt[[1]][c(1,2,3,5,5,6)])
+repart_cult
+repart_rdt[which(repart_rdt == "ag03" ) ] <- c(choix_cult_rdt[[2]][c(1,2,3,5,5,6)])
+repart_rdt 
+#Agriculteur 4
+repart_cult[which(repart_cult == "ag04")] <- c(choix_cult_rdt[[1]][c(1,2,3)])
+repart_cult
+repart_rdt[which(repart_rdt == "ag04" ) ] <- c(choix_cult_rdt[[2]][c(1,2,3)])
+repart_rdt 
+#Agriculteur 5
+repart_cult[which(repart_cult == "ag05")] <- c(choix_cult_rdt[[1]][c(1)])
+repart_cult
+repart_rdt[which(repart_rdt == "ag05" ) ] <- c(choix_cult_rdt[[2]][c(1)])
+repart_rdt 
+#Agriculteur 6
+repart_cult[which(repart_cult == "ag06")] <- c(choix_cult_rdt[[1]][c(1,9,12,1,5,4,1,1)])
+repart_cult
+repart_rdt[which(repart_rdt == "ag06" ) ] <- c(choix_cult_rdt[[2]][c(1,9,12,1,5,4,1,1)])
+repart_rdt 
+
+#Visualisation des 3 matrices
+resultfinal_repart <- array(data=c(repart_ag,repart_cult,repart_rdt), dim= c(5,5,3))
+resultfinal_repart
+
+#Pour l'utilisation de la matrice du rendement
+repart_rdt <- matrix(as.numeric(repart_rdt), ncol=5)
+repart_rdt
+
+
+#------------------------------------------------------------------------------------------------------
+#ETAPE 2 : DEROULEMENT DU JEU
+#------------------------------------------------------------------------------------------------------
+#ETAPE 2.1, 2.2,2.3 :  Gestion du verger & gestion de la mouche
+#------------------------------------------------------------------------------------------------------
+
 #Pratiques culturales
 itk <- read.csv(file = "ITKtest2.csv", dec = ",", header = TRUE)
 str(itk)
