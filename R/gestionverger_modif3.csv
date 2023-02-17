@@ -1,0 +1,14 @@
+gestionvg,modalites,gvg_abr,description_mo_gvg,Impact Bd
+Irrigation,Irrigation,irr,,0
+Fertilisation,Fertilisation,ferti,"Fumure, dechets organiques, residus organiques",0
+Desherbage,Desherbage,dsb,,1
+Prophylaxie ,Enfouissement,pro_enfouis,Collecte des mangues tombees,2
+Prophylaxie ,Incineration,pro_incin,Collecte des mangues tombees,2
+Prophylaxie ,Alimentation du betail,pro_betail,Collecte des mangues tombees,2
+Prophylaxie ,Sac poubelle,pro_sac,Collecte des mangues tombees,2
+Prophylaxie ,Depose dans coin,pro_coin,Collecte des mangues tombees,-1
+Prophylaxie ,Augmentorium,pro_augment,Collecte des mangues tombees,3
+Taille des manguiers,Taille,TAILLE,Taille et elagage pour reduire condition favorable Bd,2
+Travail du sol,TravailSol,TRASOL,Labourage peu profond pour éliminer les larves par enfouissement,1
+Drainage de la sève des fruits,EgouttageSol,drain_sol,Mangues pedoncules bas sur sol,-1
+Drainage de la sève des fruits,EgouttageTable,drain_table,Mangues pedoncules bas sur tables,1

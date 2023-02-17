@@ -14,7 +14,7 @@ setwd("./R")
 #------------------------------------------------------------------------------------------------------
 
 #Matrices : répartition des agriculteurs, répartition des cultures, rendement en fonction des cultures 
-#Une case = 0,4 ha (Superficie plantation entre 0.2 et 10.7ha, moyenne est de 1,72ha, O.Ndiage 2020)
+#Une case = 0,4 ha (Superficie plantation manguiers entre 0.2 et 10.7ha, moyenne est de 1,72ha, O.Ndiage 2020)
 
 #Repartition des agriculteurs
 repart_ag<-matrix( data = NA, nrow = 5, ncol = 5,
@@ -61,12 +61,9 @@ repart_rdt[which(repart_rdt == "ag06" ) ] <- c(choix_cult_rdt[[2]][c(1,9,12,1,5,
 
 #Visualisation des 3 matrices
 resultfinal_repart <- array(data=c(repart_ag,repart_cult,repart_rdt), dim= c(5,5,3), dimnames=list(c("a","b","c","d","e"), c(1,2,3,4,5),c("agriculteurs","cultures","rendement")))
-resultfinal_repart
 
 #Pour l'utilisation de la matrice du rendement
 repart_rdt <- matrix(as.numeric(repart_rdt), ncol=5)
-repart_rdt
-
 
 #------------------------------------------------------------------------------------------------------
 #ETAPE 2 : DEROULEMENT DU JEU
@@ -74,15 +71,15 @@ repart_rdt
 #ETAPE 2.1, 2.2,2.3 :  Gestion du verger & gestion de la mouche
 #------------------------------------------------------------------------------------------------------
 
-#Pratiques culturales
-itk <- read.csv(file = "ITKtest2.csv", dec = ",", header = TRUE)
-str(itk)
+#Gestion du verger
+gestionverger <- read.csv(file = "gestionverger_modif3.csv", dec = ",", header = TRUE)
+str(gestionverger)
 #Typologie des vergers
 typoverger <- read.csv(file = "Typotest2.csv", dec = ",", header = TRUE) 
 str(typoverger)
-#Luttes contre la mouche
-luttes <-read.csv(file = "Luttestest2.csv", dec = ",", header = TRUE)
-str(luttes)
+#Gestion de la mouche
+gestionmouche <-read.csv(file = "gestionmouche_modif3.csv", dec = ",", header = TRUE)
+str(gestionmouche)
 
 #Conditions initiales :
 #Chaque joueur choisit une carte "Typologie"
@@ -94,44 +91,48 @@ str(luttes)
 #Agriculteur 1
 ag01 <- list(
   typoverger = "extensif", 
-  itk = c("PRO_Enfouis", "TAILLE","PRO_Enfouis"),
-  luttes = c("TEM_Mal","VP_Dieg", "TRAISOL_Cendre")
+  gestionverger = c("pro_enfouis", "pro_enfouis", "TAILLE"),
+  gestionmouche = c("TEM_Mal","VP_Dieg", "TRAISOL_Cendre")
 )
 score_depart_ag01 = 8
 
-get_itk_score <- function(monTK1){
-  score <- sum((itk[itk$ITKAbr %in% monTK1,]$Impact.Bd))
+get_gestionverger_score <- function(monTK1){
+  score <- sum((gestionverger[gestionverger$gvg_abr %in% monTK1,]$Impact.Bd))
   return(score)
 }
-I1 <- get_itk_score(monTK1 = ag01[[2]])
+I1 <- get_gestionverger_score(monTK1 = ag01[[2]])
 
-get_lutte_score <- function(monTK2){
-  score <- sum((luttes[luttes$LutteAbr %in% monTK2,]$Impact.Bd))
+# Problème : ne prend pas en compte si pluseurs fois même element, inclure fréquence à part ?
+
+get_gestionmouche_score <- function(monTK2){
+  score <- sum((gestionmouche[gestionmouche$gestionmouche_abr %in% monTK2,]$Impact.Bd))
   return(score)
 }
-L1 <-get_lutte_score(monTK2 = ag01[[3]])
+L1 <-get_gestionmouche_score(monTK2 = ag01[[3]])
 IL1<-sum(I1,L1)
 
 #Agriculteur 2 (augmentorium coûte 2 et LB aussi)
 ag02 <- list(
   typoverger = "intensif", 
-  itk = c( "TAILLE","	PRO_Augment", "PRO_Augment"),
-  luttes = c("TEM_Mal","TPT_Succ","LB_Para")
+  gestionverger = c("TAILLE","	PRO_Augment", "PRO_Augment"),
+  gestionmouche = c("TEM_Mal","TPT_Succ","LB_Para")
 )
 score_depart_ag02 = 13
-I2 <- get_itk_score(monTK1 = ag02[[2]])
-L2 <-get_lutte_score(monTK2 = ag02[[3]])
+I2 <- get_gestionverger_score(monTK1 = ag02[[2]])
+I2
+L2 <-get_gestionmouche_score(monTK2 = ag02[[3]])
 IL2<-sum(I2,L2)
+
 #Agriculteur 3 
 ag03 <- list(
   typoverger = "cueillette", 
-  itk = c( "FERTI","PRO_Coin"),
-  luttes = c("TEM_Mal","TRAISOL_HuileN")
+  gestionverger = c( "FERTI","PRO_Coin"),
+  gestionmouche = c("TEM_Mal","TRAISOL_HuileN")
 )
 score_depart_ag03 = 5
 
-I3 <- get_itk_score(monTK1 = ag03[[2]])
-L3 <-get_lutte_score(monTK2 = ag03[[3]])
+I3 <- get_gestionverger_score(monTK1 = ag03[[2]])
+L3 <-get_gestionmouche_score(monTK2 = ag03[[3]])
 IL3<-sum(I3,L3)
 
 #Si l'agriculteur intensif a un score < à 13, il fait perdre 1 point aux agriculteurs voisins, sinon il gagne 1 point
@@ -184,22 +185,22 @@ result_ag03 <- if(IL3>=7) {
 #PARTIE N°2
 ag01 <- list(
   typoverger = "extensif", 
-  itk = c(""),
-  luttes = c("")
+  gestionverger = c(""),
+  gestionmouche = c("")
 )
 score_depart2_ag01 = score_final_ag01
 
 ag02 <- list(
   typoverger = "intensif", 
-  itk = c( ""),
-  luttes = c("")
+  gestionverger = c( ""),
+  gestionmouche = c("")
 )
 score_depart2_ag02 = score_final_ag02
 
 ag03 <- list(
   typoverger = "cueillette", 
-  itk = c( ""),
-  luttes = c("")
+  gestionverger = c( ""),
+  gestionmouche = c("")
 )
 score_depart2_ag03 = score_final_ag03
 
