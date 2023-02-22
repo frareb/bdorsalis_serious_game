@@ -101,7 +101,7 @@ get_gestionverger_score <- function(monTK1){
   return(score)
 }
 I1 <- get_gestionverger_score(monTK1 = ag01[[2]])
-
+I1
 # Problème : ne prend pas en compte si pluseurs fois même element, inclure fréquence à part ?
 
 get_gestionmouche_score <- function(monTK2){
