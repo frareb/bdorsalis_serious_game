@@ -97,8 +97,10 @@ ag01 <- list(
 score_depart_ag01 = 8
 
 get_gestionverger_score <- function(monTK1){
-  score <- sum((gestionverger[gestionverger$gvg_abr %in% monTK1,]$Impact.Bd))
-  return(score)
+  scorei <- sapply(seq_along(monTK1), function(i){
+    score <- sum(gestionverger[gestionverger$gvg_abr %in% monTK1[i],]$Impact.Bd)
+  })
+  return(sum(scorei))
 }
 I1 <- get_gestionverger_score(monTK1 = ag01[[2]])
 I1
