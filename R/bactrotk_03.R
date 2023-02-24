@@ -10,6 +10,10 @@ setwd("./R")
 #Rendement en fonction superficie verger
 
 rdt_ha <- read.csv(file = "rdtha23022023.csv", dec = ",", header = TRUE)
+# FR: je ne comprends pas l interet de ce tableau, ce dont tu as besoin est
+# de connaitre le rendement par ha non ? Donc de ce que je comprends :
+# mangues = 10t/ha, agrumes = 2t/ha et maraichage = 1t/ha ?
+
 rdt_ha 
 ag01_rdt_points = sum(rdt_ha[1,][c(2,3,4)])
 ag01_rdt_points
@@ -17,6 +21,13 @@ ag02_rdt_points = sum(rdt_ha[2,][c(2,3,4)])
 ag02_rdt_points
 ag03_rdt_points = sum(rdt_ha[3,][c(2)])
 ag03_rdt_points
+# FR: si je comprends bien ici c'est pour déterminer qui a quoi ? N est-ce pas
+# trop tôt pour cela ? Ne faudrait-il pas commencer par le paysage 
+# (qui a quoi) ? 
+# nomAg, smangue, sagrume, smaraichage
+# ag01, 0.5, 0.5, 0.5
+# ag02, 1, 1, 1
+
 
 #ETAPE 2 : DEROULEMENT DU JEU
 itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE)
