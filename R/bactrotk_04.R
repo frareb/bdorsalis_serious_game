@@ -1,9 +1,7 @@
 # -----------------------------------------------------------------------------
-# ESSAI N°4 : Impacts Bactrocera dorsalis en fonction des pratiques/luttes 
-# agricoles
+# ESSAI N°4 : Impacts Bactrocera dorsalis en fonction des pratiques/luttes agricoles
 #14.03.2023
 # -----------------------------------------------------------------------------
-
 setwd("./R")
 itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE) 
 #ETAPE 0 : FORMULES
@@ -26,9 +24,7 @@ X2 = 15
 ag01 <- list( itk = c("pro_effic"), c(X1M_depart = X1 - X1*BD))
 ag02 <- list(itk = c("dsb","dsb","piege_muscba"), c(X2M_depart = X2 - X2*BD))
 n <- list(ag01, ag02)
-n
 #ETAPE 2 : RESULTATS INDIV
-
 scoreitk <- for (i in 1:length(n)){
   if (get_RN_score(ressncrs = n[[i]][[1]])>n[[i]][2]) { #Vérification condition points nécessaires 
     print ("Vous n'avez pas assez de points pour jouer ces cartes, changer de cartes")
@@ -44,9 +40,8 @@ scoreitk <- for (i in 1:length(n)){
   #    print(get_itk_score(monTK = n[[i]][[1]]))
   #  }
   #}scoreindiv <- rep(NA, length(n))
-
 scorefinal_indivtest<- for (i in 1:length(n)){ #Resultat actions individuelles 
-  if (get_itk_score(monTK = n[[i]][[1]])>= (0.6*n[[i]][[2]])) { #isTRUE(n) && https://www.statology.org/r-argument-is-of-length-zero/
+  if (get_itk_score(monTK = n[[i]][[1]])>= (0.6*n[[i]][[2]])) { 
     scoreindiv[i] <- n[[i]][[2]] + (n[[i]][[2]])* (BD+0.1) 
     print (scoreindiv[i])
     print ("Pratiques vertueuses") #positif
