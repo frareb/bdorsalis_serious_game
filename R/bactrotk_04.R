@@ -21,47 +21,53 @@ get_itk_score <- function(monTK){ #Somme de l'impact des pratiques sur BD :  si 
 BD = 0.6
 X1 = 10 
 X2 = 15
-
+X3 = 7
+X4 = 16
 ag01 <- list( itk = c("pro_effic"), X1M_depart = X1 - X1*BD)
 ag02 <- list(itk = c("dsb","dsb","piege_muscba"), X2M_depart = X2 - X2*BD)
-n <- list(ag01, ag02)
+ag03 <- list(itk = c("appat_gf"), X3M_depart = X3 - X3*BD)
+ag04 <- list(itk = c("pro_effic"), X4M_depart = X4 - X4*BD)
+n <- list(ag01, ag02,ag03,ag04)
 # -----------------------------------------------------------------------------
 ######### ETAPE 2 : RESULTATS INDIV #######
-scoreitk2 <- for (i in 1:length(n)) {
+scoreitk <- for (i in 1:length(n)) {
   ifelse ((get_RN_score(ressncrs = n[[c(i,1)]])>n[[c(i,2)]]),  
   print ("Vous n'avez pas assez de points pour jouer ces cartes, changer de cartes"),
   print(get_itk_score(monTK = n[[i]][[1]])))
 }
 scoreindiv <- rep(NA, length(n))
-scorefinal_indivtest<- for (i in 1:length(n)){ #Resultat actions individuelles 
+a <- rep(NA, length(n))
+scorefinal_indivtest<- for (i in 1:length(n)) {  #Resultat actions individuelles 
   if (get_itk_score(monTK = n[[c(i,1)]])>= (0.6*n[[c(i,2)]])) { 
     scoreindiv[i] <- n[[c(i,2)]] + (n[[c(i,2)]])* (BD+0.1) 
     print (scoreindiv[i])
     print ("Pratiques vertueuses") #positif
-    a <- 1
+    a[i] <- 1
+    print(a[i])
   }else{
     scoreindiv[i] <-n[[c(i,2)]]
     print (scoreindiv[i]) #négatif
     print ("Pratiques pas assez efficaces")
-    a <- -1
+    a[i] <- -1
+    print(a[i])
   }
-  as <- sum(rep(a, times = length(n)))
-  print(as)
-}
+  as <- sum(a) #sum(rep(a[i], times = length(n)))
+} 
 ######### ETAPE 3 : RESULTATS COLLECTIFS
 for (i in 1:length(n)) {
   if (as>=0) {
     print("Bravo, la mouche a diminué de 10% dans le paysage")
     n[[c(i,2)]] <- scoreindiv[i]
-    BD <- BD-0.05 #réfléchir comment la mouche diminue d'un tour à l'autre #module de dispersion
   }else{
     print ("Mince...la plupart des joueurs n'ont pas fait les meilleurs choix ")
     n[[c(i,2)]] <- n[[c(i,2)]]
   }
 }
+if (as>=0) {BD <- BD-0.05} #réfléchir comment la mouche diminue d'un tour à l'autre #module de dispersion
 ######### ETAPE 4 : NOUVEAUX  CHOIX DE CARTE POUR PARTIE SUIVANTE
 n[[1]][[1]] <- c("lb_nid", "lb_nid","lb_nid")
 n[[2]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
-n
+n[[3]][[1]] <-c("dsb")
+n[[4]][[1]] <-c("dsb","lb_nid", "lb_nid","lb_nid")
 ######### ETAPE 5 : retour ETAPE 2
 
