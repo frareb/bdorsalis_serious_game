@@ -11,22 +11,19 @@ get_RN_score <- function(ressncrs){ #Somme des points requis des cartes jouées
   })
   return(sum(scorei))
 }
-get_itk_score <- function(monTK){ #Somme de l'impact des pratiques sur BD :  si positif,  choix de la pratique efficace contre prévalence mouche
+get_itk_score <- function(monTK){ #Somme de l'impact des pratiques par rapport à BD sur rendement :  si positif,  choix de la pratique efficace contre prévalence mouche
   scorei <- sapply(seq_along(monTK), function(i){
     score <- sum(itk[itk$modalite.abr %in% monTK[i],]$impactbdsurdt)
   })
   return(sum(scorei))
 }
 ######## ETAPE 1 : ENTREES
-BD = 0.6
-X1 = 10 
-X2 = 15
-X3 = 7
-X4 = 16
-ag01 <- list( itk = c("pro_effic"), X1M_depart = X1 - X1*BD)
-ag02 <- list(itk = c("dsb","dsb","piege_muscba"), X2M_depart = X2 - X2*BD)
-ag03 <- list(itk = c("appat_gf"), X3M_depart = X3 - X3*BD)
-ag04 <- list(itk = c("pro_effic"), X4M_depart = X4 - X4*BD)
+PBD = 0.6
+X=c(10,15,7,16)
+ag01 <- list( itk = c("pro_effic"), X1_depart = X[1] - X[1]*PBD)
+ag02 <- list(itk = c("dsb","dsb","piege_muscba"), X2_depart = X[2] - X[2]*PBD)
+ag03 <- list(itk = c("appat_gf"), X3_depart = X[3] - X[3]*PBD)
+ag04 <- list(itk = c("pro_effic"), X4_depart = X[4] - X[4]*PBD)
 n <- list(ag01, ag02,ag03,ag04)
 # -----------------------------------------------------------------------------
 ######### ETAPE 2 : RESULTATS INDIV #######
@@ -38,14 +35,14 @@ scoreitk <- for (i in 1:length(n)) {
 scoreindiv <- rep(NA, length(n))
 a <- rep(NA, length(n))
 scorefinal_indivtest<- for (i in 1:length(n)) {  #Resultat actions individuelles 
-  if (get_itk_score(monTK = n[[c(i,1)]])>= (0.6*n[[c(i,2)]])) { 
-    scoreindiv[i] <- n[[c(i,2)]] + (n[[c(i,2)]])* (BD+0.1) 
+  if (get_itk_score(monTK = n[[c(i,1)]])>= (PBD*X[i])) { # modifier 0.6*n[[c(i,2)]] par X[i]*PBD ? 
+    scoreindiv[i] <- X[i] - (X[i])* (PBD-0.1) 
     print (scoreindiv[i])
     print ("Pratiques vertueuses") #positif
     a[i] <- 1
     print(a[i])
   }else{
-    scoreindiv[i] <-n[[c(i,2)]]
+    scoreindiv[i] <-X[i] - (X[i])* (PBD) 
     print (scoreindiv[i]) #négatif
     print ("Pratiques pas assez efficaces")
     a[i] <- -1
@@ -56,14 +53,18 @@ scorefinal_indivtest<- for (i in 1:length(n)) {  #Resultat actions individuelles
 ######### ETAPE 3 : RESULTATS COLLECTIFS
 for (i in 1:length(n)) {
   if (as>=0) {
-    print("Bravo, la mouche a diminué de 10% dans le paysage")
     n[[c(i,2)]] <- scoreindiv[i]
   }else{
-    print ("Mince...la plupart des joueurs n'ont pas fait les meilleurs choix ")
     n[[c(i,2)]] <- n[[c(i,2)]]
   }
 }
-if (as>=0) {BD <- BD-0.05} #réfléchir comment la mouche diminue d'un tour à l'autre #module de dispersion
+n
+if (as>=0) {
+  print("Bravo, les pertes liés à la mouche ont baissé de 10%")  #réfléchir comment la mouche diminue d'un tour à l'autre #module de dispersion
+  PBD <- PBD-0.1
+  }else{
+  print ("Mince, le taux de pertes n'a pas diminué cette saison ")
+  }
 ######### ETAPE 4 : NOUVEAUX  CHOIX DE CARTE POUR PARTIE SUIVANTE
 n[[1]][[1]] <- c("lb_nid", "lb_nid","lb_nid")
 n[[2]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
