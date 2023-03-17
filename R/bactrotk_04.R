@@ -6,7 +6,7 @@ setwd("./R")
 
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 tauxDePertesBD <- 0.6
-rdtOptimal <- c(10, 15, 7, 16)
+rdtOptimal <- c(10, 15, 7, 50)
 ag01 <- list(
   itk = c("pro_effic"), 
   X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
@@ -20,7 +20,7 @@ ag03 <- list(
   X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
-  itk = c("pro_effic"), 
+  itk = c("pro_effic", "pro_effic", "pro_effic", "pro_effic", "pro_effic"), 
   X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
 )
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
@@ -31,8 +31,10 @@ bloc01 <- {
 
 # Chargement de la liste des pratiques culturales
 itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE) 
-# la meilleure note technique en utilisant toutes les pratiques : 
-bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0])
+# la meilleure note technique en utilisant toutes les pratiques. Ici je mets
+# la meilleure note sur 2 de façon à avoir un score supérieur à 1 si les 
+# agris font au moins la moitié des bonnes pratiques
+bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0]) / 2
 
 # Somme des points requis des cartes jouées
 get_RN_score <- function(ressncrs){ 
@@ -61,7 +63,7 @@ verifNumPoints <- function(listAgriITKetX){
   for (i in 1:length(listAgriITKetX)) {
     msgi <- paste0(
       "Agri", i, ": ", get_RN_score(ressncrs = listAgriITKetX[[c(i,1)]]), "/", 
-      listAgriITKetX[[c(i,2)]], " points utilisés : "
+      round(listAgriITKetX[[c(i,2)]], digits = 2), " points utilisés : "
     )
     msgi <- paste0(msgi, switch(
       as.character(get_RN_score(ressncrs = listAgriITKetX[[c(i,1)]]) > listAgriITKetX[[c(i,2)]]),
@@ -74,74 +76,121 @@ verifNumPoints <- function(listAgriITKetX){
   return(msg)
 }
 
+calculTxNoteITK <- function(){
+  sapply(seq_along(listAgriITKetX), function(i){
+    tauxMyITKnote <- get_itk_score(monTK = listAgriITKetX[[c(i,1)]])/bestITKnote
+  })
+}
+
+# calcul du rdt avec le taux de note ITK et incidence BD
+calculRdt <- function(){
+  if(mean(calculTxNoteITK()) > 0.5){
+    newTauxDePertesBD <- tauxDePertesBD - tauxDePertesBD*0.1
+  } else {
+    newTauxDePertesBD <- tauxDePertesBD + tauxDePertesBD*0.1
+  }
+  msg <- paste0("Moy. note ITK: ", round(mean(calculTxNoteITK()), digits = 2), "\n",
+    "Taux de pertes BD initial: ", round(tauxDePertesBD, digits= 2), 
+    ". Nouveau taux : ", 
+    newTauxDePertesBD, ".\n"
+  )
+  cat(msg)
+  tauxDePertesBD <- newTauxDePertesBD
+  if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
+  rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
+    rdtReel <- rdtOptimal[i] - 
+      rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*calculTxNoteITK()[i])
+    msg <- paste0(
+      "Agri", i, 
+      ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
+      " ; note ITK: ", round(calculTxNoteITK()[i], digits = 2), 
+      " ; rdt réel: ", round(rdtReel, digits = 2),
+      "\n"
+    )
+    cat(msg)
+    return(rdtReel)
+  })
+  return(list(tauxDePertesBD, rdtReel))
+}
+
+
+
+
 }
 
 # --- 3. BOUCLE DU JEU --------------------------------------------------------
 cat(verifNumPoints(listAgriITKetX)) # vérif nombre de points
-
-
-
-
-scoreindiv <- rep(NA, length(listAgriITKetX))
-a <- rep(NA, length(listAgriITKetX))
-scorefinal_indivtest<- for (i in 1:length(listAgriITKetX)) {  #Resultat actions individuelles 
-  # ici tu compares un rendement théorique (tauxDePertesBD*rdtOptimal[i]) et 
-  # une note basée sur les pratiques agricoles. Pour moi ce n'est pas 
-  # comparable car pas dans les mêmes unités. Par exemple un agri1 peut avoir
-  # un rdt optimal de 100 et il n'arrivera jamais à une note supérieure à 100 ?
-  # Et un agri2 avec un rdt optimal de 2 arrivera toujours avec une note 
-  # supérieure à 2 et donc verra son taux de perte amoindri alors qu'il peut
-  # avoir des pratiques très mauvaises par rapport à l'agri1. Le calcul doit 
-  # être indépendant du rdtOptimal.
-  # il faudrait que tu calcules une note technique qui servent à ajuster le 
-  # tauxDePertesBD. J'ai mis un exemple sous la fonction.
-  if (get_itk_score(monTK = listAgriITKetX[[c(i,1)]])>= (tauxDePertesBD*rdtOptimal[i])) { # modifier 0.6*n[[c(i,2)]] par rdtOptimal[i]*tauxDePertesBD ? 
-    scoreindiv[i] <- rdtOptimal[i] - (rdtOptimal[i])* (tauxDePertesBD-0.1) 
-    print (scoreindiv[i])
-    print ("Pratiques vertueuses") #positif
-    a[i] <- 1
-    print(a[i])
-  } else {
-    scoreindiv[i] <-rdtOptimal[i] - (rdtOptimal[i])* (tauxDePertesBD) 
-    print (scoreindiv[i]) #négatif
-    print ("Pratiques pas assez efficaces")
-    a[i] <- -1
-    print(a[i])
-  }
-  as <- sum(a) #sum(rep(a[i], times = length(listAgriITKetX)))
-} 
-
-# la meilleure note technique en utilisant toutes les pratiques : 
-bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0])
-# la note d'un agriculteur
-myITKnote <- get_itk_score(monTK = listAgriITKetX[[c(i,1)]])
-# le rapport entre la note agri et la meilleure note
-tauxMyITKnote <- myITKnote/bestITKnote
-# rdt individuel si rien n'est fait
-rdtOptimal[i] - rdtOptimal[i]*tauxDePertesBD
-# rdt individuel avec les pratiques
-rdtOptimal[i] - rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*tauxMyITKnote)
-
-
-######### ETAPE 3 : RESULTATS COLLECTIFS
-for (i in 1:length(listAgriITKetX)) {
-  if (as>=0) {
-    listAgriITKetX[[c(i,2)]] <- scoreindiv[i]
-  }else{
-    listAgriITKetX[[c(i,2)]] <- listAgriITKetX[[c(i,2)]]
-  }
-}
-listAgriITKetX
-if (as >= 0) {
-  print("Bravo, les pertes liés à la mouche ont baissé de 10%")  #réfléchir comment la mouche diminue d'un tour à l'autre #module de dispersion
-  tauxDePertesBD <- tauxDePertesBD-0.1
-  }else{
-  print ("Mince, le taux de pertes n'a pas diminué cette saison ")
-  }
-######### ETAPE 4 : NOUVEAUX  CHOIX DE CARTE POUR PARTIE SUIVANTE
+tourDeJeu <- calculRdt() # rdt en fin de tour et nouveau taux de pertes BD
+tauxDePertesBD <- tourDeJeu[[1]]
+listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
+  listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
+  return(listAgriITKetX[[i]])
+})
 listAgriITKetX[[1]][[1]] <- c("lb_nid", "lb_nid","lb_nid")
 listAgriITKetX[[2]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
 listAgriITKetX[[3]][[1]] <- c("dsb")
 listAgriITKetX[[4]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
+
+# scoreindiv <- rep(NA, length(listAgriITKetX))
+# a <- rep(NA, length(listAgriITKetX))
+# scorefinal_indivtest<- for (i in 1:length(listAgriITKetX)) {  #Resultat actions individuelles 
+#   # ici tu compares un rendement théorique (tauxDePertesBD*rdtOptimal[i]) et 
+#   # une note basée sur les pratiques agricoles. Pour moi ce n'est pas 
+#   # comparable car pas dans les mêmes unités. Par exemple un agri1 peut avoir
+#   # un rdt optimal de 100 et il n'arrivera jamais à une note supérieure à 100 ?
+#   # Et un agri2 avec un rdt optimal de 2 arrivera toujours avec une note 
+#   # supérieure à 2 et donc verra son taux de perte amoindri alors qu'il peut
+#   # avoir des pratiques très mauvaises par rapport à l'agri1. Le calcul doit 
+#   # être indépendant du rdtOptimal.
+#   # il faudrait que tu calcules une note technique qui servent à ajuster le 
+#   # tauxDePertesBD. J'ai mis un exemple sous la fonction.
+#   if (get_itk_score(monTK = listAgriITKetX[[c(i,1)]])>= (tauxDePertesBD*rdtOptimal[i])) { # modifier 0.6*n[[c(i,2)]] par rdtOptimal[i]*tauxDePertesBD ? 
+#     scoreindiv[i] <- rdtOptimal[i] - (rdtOptimal[i])* (tauxDePertesBD-0.1) 
+#     print (scoreindiv[i])
+#     print ("Pratiques vertueuses") #positif
+#     a[i] <- 1
+#     print(a[i])
+#   } else {
+#     scoreindiv[i] <-rdtOptimal[i] - (rdtOptimal[i])* (tauxDePertesBD) 
+#     print (scoreindiv[i]) #négatif
+#     print ("Pratiques pas assez efficaces")
+#     a[i] <- -1
+#     print(a[i])
+#   }
+#   as <- sum(a) #sum(rep(a[i], times = length(listAgriITKetX)))
+# } 
+# 
+# # la meilleure note technique en utilisant toutes les pratiques : 
+# bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0])
+# # la note d'un agriculteur
+# myITKnote <- get_itk_score(monTK = listAgriITKetX[[c(i,1)]])
+# # le rapport entre la note agri et la meilleure note
+# tauxMyITKnote <- myITKnote/bestITKnote
+# # rdt individuel si rien n'est fait
+# rdtOptimal[i] - rdtOptimal[i]*tauxDePertesBD
+# # rdt individuel avec les pratiques
+# rdtOptimal[i] - rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*tauxMyITKnote)
+
+
+######### ETAPE 3 : RESULTATS COLLECTIFS
+# for (i in 1:length(listAgriITKetX)) {
+#   if (as>=0) {
+#     listAgriITKetX[[c(i,2)]] <- scoreindiv[i]
+#   }else{
+#     listAgriITKetX[[c(i,2)]] <- listAgriITKetX[[c(i,2)]]
+#   }
+# }
+# listAgriITKetX
+# if (as >= 0) {
+#   print("Bravo, les pertes liés à la mouche ont baissé de 10%")  #réfléchir comment la mouche diminue d'un tour à l'autre #module de dispersion
+#   tauxDePertesBD <- tauxDePertesBD-0.1
+#   }else{
+#   print ("Mince, le taux de pertes n'a pas diminué cette saison ")
+#   }
+######### ETAPE 4 : NOUVEAUX  CHOIX DE CARTE POUR PARTIE SUIVANTE
+# listAgriITKetX[[1]][[1]] <- c("lb_nid", "lb_nid","lb_nid")
+# listAgriITKetX[[2]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
+# listAgriITKetX[[3]][[1]] <- c("dsb")
+# listAgriITKetX[[4]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
 ######### ETAPE 5 : retour ETAPE 2
 
