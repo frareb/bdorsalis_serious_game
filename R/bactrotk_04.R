@@ -6,22 +6,22 @@ setwd("./R")
 
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 tauxDePertesBD <- 0.6
-niveauDepart <- c(10, 15, 7, 16)
+rdtOptimal <- c(10, 15, 7, 16)
 ag01 <- list(
   itk = c("pro_effic"), 
-  X1_depart = niveauDepart[1] - niveauDepart[1]*tauxDePertesBD
+  X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
 )
 ag02 <- list(
   itk = c("dsb","dsb","piege_muscba"), 
-  X2_depart = niveauDepart[2] - niveauDepart[2]*tauxDePertesBD
+  X2_depart = rdtOptimal[2] - rdtOptimal[2]*tauxDePertesBD
 )
 ag03 <- list(
   itk = c("appat_gf"), 
-  X3_depart = niveauDepart[3] - niveauDepart[3]*tauxDePertesBD
+  X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
   itk = c("pro_effic"), 
-  X4_depart = niveauDepart[4] - niveauDepart[4]*tauxDePertesBD
+  X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
 )
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
 # -----------------------------------------------------------------------------
@@ -76,19 +76,19 @@ verifNumPoints <- function(listAgriITKetX){
 }
 
 # --- 3. BOUCLE DU JEU --------------------------------------------------------
-cat(verifNumPoints(listAgriITKetX)) # vérif #points
+cat(verifNumPoints(listAgriITKetX)) # vérif nombre de points
 
 scoreindiv <- rep(NA, length(listAgriITKetX))
 a <- rep(NA, length(listAgriITKetX))
 scorefinal_indivtest<- for (i in 1:length(listAgriITKetX)) {  #Resultat actions individuelles 
-  if (get_itk_score(monTK = listAgriITKetX[[c(i,1)]])>= (tauxDePertesBD*niveauDepart[i])) { # modifier 0.6*n[[c(i,2)]] par niveauDepart[i]*tauxDePertesBD ? 
-    scoreindiv[i] <- niveauDepart[i] - (niveauDepart[i])* (tauxDePertesBD-0.1) 
+  if (get_itk_score(monTK = listAgriITKetX[[c(i,1)]])>= (tauxDePertesBD*rdtOptimal[i])) { # modifier 0.6*n[[c(i,2)]] par rdtOptimal[i]*tauxDePertesBD ? 
+    scoreindiv[i] <- rdtOptimal[i] - (rdtOptimal[i])* (tauxDePertesBD-0.1) 
     print (scoreindiv[i])
     print ("Pratiques vertueuses") #positif
     a[i] <- 1
     print(a[i])
   } else {
-    scoreindiv[i] <-niveauDepart[i] - (niveauDepart[i])* (tauxDePertesBD) 
+    scoreindiv[i] <-rdtOptimal[i] - (rdtOptimal[i])* (tauxDePertesBD) 
     print (scoreindiv[i]) #négatif
     print ("Pratiques pas assez efficaces")
     a[i] <- -1
