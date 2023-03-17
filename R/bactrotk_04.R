@@ -1,33 +1,10 @@
 # -----------------------------------------------------------------------------
 # ESSAI N°4 : Impacts Bactrocera dorsalis en fonction des pratiques/luttes 
-#   agricoles
-# 14.03.2023
+#   agricoles (14.03.2023) Audrey N'Gom et François Rebaudo
 # -----------------------------------------------------------------------------
 setwd("./R")
 
-# Chargement de la liste des pratiques culturales
-itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE) 
-
-# Fonctions
-
-# Somme des points requis des cartes jouées
-get_RN_score <- function(ressncrs){ 
-  scorei <- sapply(seq_along(ressncrs), function(i){
-    score <- sum(itk[itk$modalite.abr %in% ressncrs[i],]$ressources.ncsr)
-  })
-  return(sum(scorei))
-}
-
-# Somme de l'impact des pratiques par rapport à BD sur rendement :  si positif,
-#   choix de la pratique efficace contre prévalence mouche
-get_itk_score <- function(monTK){ 
-  scorei <- sapply(seq_along(monTK), function(i){
-    score <- sum(itk[itk$modalite.abr %in% monTK[i],]$impactbdsurdt)
-  })
-  return(sum(scorei))
-}
-
-# --- 1. INITIALISATION DU JEU ---
+# --- 1. INITIALISATION DU JEU ------------------------------------------------
 tauxDePertesBD <- 0.6
 niveauDepart <- c(10, 15, 7, 16)
 ag01 <- list(
@@ -49,14 +26,58 @@ ag04 <- list(
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
 # -----------------------------------------------------------------------------
 
-######### ETAPE 2 : RESULTATS INDIV #######
-scoreitk <- for (i in 1:length(listAgriITKetX)) {
-  ifelse (
-    get_RN_score(ressncrs = listAgriITKetX[[c(i,1)]]) > listAgriITKetX[[c(i,2)]],  
-    print("Vous n'avez pas assez de points pour jouer ces cartes, changer de cartes"),
-    print(get_itk_score(monTK = listAgriITKetX[[i]][[1]]))
-  )
+# --- 2. CHARGEMENT DES DONNEES ET FONCTIONS ----------------------------------
+bloc01 <- {
+
+# Chargement de la liste des pratiques culturales
+itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE) 
+
+# Fonctions
+
+# Somme des points requis des cartes jouées
+get_RN_score <- function(ressncrs){ 
+  scorei <- sapply(seq_along(ressncrs), function(i){
+    score <- itk[itk$modalite.abr == ressncrs[i],]$ressources.ncsr
+    if(length(score)==0){score <- NA}
+    return(score)
+    # score <- sum(itk[itk$modalite.abr %in% ressncrs[i],]$ressources.ncsr)
+  })
+  return(sum(scorei))
 }
+
+# Somme de l'impact des pratiques par rapport à BD sur rendement :  si positif,
+#   choix de la pratique efficace contre prévalence mouche
+get_itk_score <- function(monTK){ 
+  scorei <- sapply(seq_along(monTK), function(i){
+    score <- sum(itk[itk$modalite.abr %in% monTK[i],]$impactbdsurdt)
+  })
+  return(sum(scorei))
+}
+
+# Verification du nombre de points de jeu pour chaque agriculteur
+verifNumPoints <- function(listAgriITKetX){
+  msg <- "Vérification du nombre de points"
+  for (i in 1:length(listAgriITKetX)) {
+    msgi <- paste0(
+      "Agri", i, ": ", get_RN_score(ressncrs = listAgriITKetX[[c(i,1)]]), "/", 
+      listAgriITKetX[[c(i,2)]], " points utilisés : "
+    )
+    msgi <- paste0(msgi, switch(
+      as.character(get_RN_score(ressncrs = listAgriITKetX[[c(i,1)]]) > listAgriITKetX[[c(i,2)]]),
+      "TRUE" = "pas assez de points",
+      "FALSE" = "OK",
+      "NA" = "erreur de saisie itk"
+    ))
+    msg <- paste(msg, msgi, sep = "\n")
+  }
+  return(msg)
+}
+
+}
+
+# --- 3. BOUCLE DU JEU --------------------------------------------------------
+cat(verifNumPoints(listAgriITKetX)) # vérif #points
+
 scoreindiv <- rep(NA, length(listAgriITKetX))
 a <- rep(NA, length(listAgriITKetX))
 scorefinal_indivtest<- for (i in 1:length(listAgriITKetX)) {  #Resultat actions individuelles 
