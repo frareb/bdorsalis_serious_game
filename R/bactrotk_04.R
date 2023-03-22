@@ -34,7 +34,7 @@ itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE)
 # la meilleure note technique en utilisant toutes les pratiques. Ici je mets
 # la meilleure note sur 2 de façon à avoir un score supérieur à 1 si les 
 # agris font au moins la moitié des bonnes pratiques
-bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0]) / 2
+bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0]) / 2 #mettre le 2 en variable "difficulté"à insérer ligne 8
 
 # Somme des points requis des cartes jouées
 get_RN_score <- function(ressncrs){ 
@@ -84,7 +84,7 @@ calculTxNoteITK <- function(){
 
 # calcul du rdt avec le taux de note ITK et incidence BD
 calculRdt <- function(){
-  if(mean(calculTxNoteITK()) > 0.5){
+  if(mean(calculTxNoteITK()) > 1){
     newTauxDePertesBD <- tauxDePertesBD - tauxDePertesBD*0.1
   } else {
     newTauxDePertesBD <- tauxDePertesBD + tauxDePertesBD*0.1
@@ -99,7 +99,7 @@ calculRdt <- function(){
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
     rdtReel <- rdtOptimal[i] - 
-      rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*calculTxNoteITK()[i])
+      rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*calculTxNoteITK()[i]) 
     msg <- paste0(
       "Agri", i, 
       ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
@@ -113,7 +113,7 @@ calculRdt <- function(){
   return(list(tauxDePertesBD, rdtReel))
 }
 
-
+#modifier rdtReel : rdtReel <- rdtOptimal[i] - rdtOptimal[i]*(tauxDePertesBD) * calculTxNoteITK()[i]
 
 
 }
