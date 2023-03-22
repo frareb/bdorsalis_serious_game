@@ -5,8 +5,10 @@
 setwd("./R")
 
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
+niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
+#nv2 : les agri doivent au moins faire la moitié des pratiques
 tauxDePertesBD <- 0.6
-rdtOptimal <- c(10, 15, 7, 50)
+rdtOptimal <- c(70, 50, 60, 80)
 ag01 <- list(
   itk = c("pro_effic"), 
   X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
@@ -34,7 +36,7 @@ itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE)
 # la meilleure note technique en utilisant toutes les pratiques. Ici je mets
 # la meilleure note sur 2 de façon à avoir un score supérieur à 1 si les 
 # agris font au moins la moitié des bonnes pratiques
-bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0]) / 2 #mettre le 2 en variable "difficulté"à insérer ligne 8
+bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0]) / niveauDeDifficulte
 
 # Somme des points requis des cartes jouées
 get_RN_score <- function(ressncrs){ 
@@ -98,8 +100,9 @@ calculRdt <- function(){
   tauxDePertesBD <- newTauxDePertesBD
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
-    rdtReel <- rdtOptimal[i] - 
-      rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*calculTxNoteITK()[i]) 
+    rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD)
+   # rdtReel <- rdtReel*calculTxNoteITK()[i]
+      #avant changement : rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*calculTxNoteITK()[i]) 
     msg <- paste0(
       "Agri", i, 
       ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
@@ -119,6 +122,7 @@ calculRdt <- function(){
 }
 
 # --- 3. BOUCLE DU JEU --------------------------------------------------------
+listAgriITKetX #afficher points
 cat(verifNumPoints(listAgriITKetX)) # vérif nombre de points
 tourDeJeu <- calculRdt() # rdt en fin de tour et nouveau taux de pertes BD
 tauxDePertesBD <- tourDeJeu[[1]]
