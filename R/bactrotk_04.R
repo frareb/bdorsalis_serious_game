@@ -100,9 +100,13 @@ calculRdt <- function(){
   tauxDePertesBD <- newTauxDePertesBD
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
-    rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD)
-   # rdtReel <- rdtReel*calculTxNoteITK()[i]
-      #avant changement : rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD - tauxDePertesBD*calculTxNoteITK()[i]) 
+    if (calculTxNoteITK()[i]<0.5) {
+      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.2) 
+    }else if(calculTxNoteITK()[i]>1){ 
+      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD-0.2)
+    }else{ 
+      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.1)
+    } 
     msg <- paste0(
       "Agri", i, 
       ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
@@ -116,7 +120,12 @@ calculRdt <- function(){
   return(list(tauxDePertesBD, rdtReel))
 }
 
-#modifier rdtReel : rdtReel <- rdtOptimal[i] - rdtOptimal[i]*(tauxDePertesBD) * calculTxNoteITK()[i]
+#modifier rdtReel : rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD + tauxDePertesBD*calculTxNoteITK()[i]) 
+# car renvoie rendement plus élevé pour tous
+#idee 1 : rdtReel <- rdtOptimal[i] - rdtOptimal[i]*(tauxDePertesBD) * calculTxNoteITK()[i] 
+#ne fonctionne pas
+#On a : rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD)
+#On veut le moduler en fonction de la note des agri (calculTxNoteITK)
 
 
 }
