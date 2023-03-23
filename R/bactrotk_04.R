@@ -9,13 +9,13 @@ niveauDeDifficulte <- 3 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
 #nv3 : les agri doivent faire au moins un tiers des pratiques
 tauxDePertesBD <- 0.5
-rdtOptimal <- c(10, 15, 20, 30)
+rdtOptimal <- c(30, 30, 30, 30)
 ag01 <- list(
-  itk = c("taille","appat_m3"), 
+  itk = c("taille","appat_m3","lb_nid", "dsb"), 
   X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
 )
 ag02 <- list(
-  itk = c("irr","piege_mala","appat_gf","ferti"), 
+  itk = c("irr","piege_mala","appat_gf","ferti", "dsb"), 
   X2_depart = rdtOptimal[2] - rdtOptimal[2]*tauxDePertesBD
 )
 ag03 <- list(
@@ -23,7 +23,7 @@ ag03 <- list(
   X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
-  itk = c("labour", "labour", "taille","taille","insect"), 
+  itk = c("labour", "labour", "taille","insect"), 
   X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
 )
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
@@ -87,7 +87,7 @@ calculTxNoteITK <- function(){
 
 # calcul du rdt avec le taux de note ITK et incidence BD
 calculRdt <- function(){
-  if(mean(calculTxNoteITK()) > 1){
+  if( sum(calculTxNoteITK()>=1)>=(0.5*(length(listAgriITKetX)))){ #(mean(calculTxNoteITK()) > 1) : ne permet de renvoyer si la plupart ont bien réussi 
     newTauxDePertesBD <- tauxDePertesBD - tauxDePertesBD*0.1 
   } else {
     newTauxDePertesBD <- tauxDePertesBD + tauxDePertesBD*0.1
@@ -141,10 +141,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("piege_mala")
-listAgriITKetX[[2]][[1]] <- c("taille", "lb_nid")
+listAgriITKetX[[1]][[1]] <- c("piege_mala","taille")
+listAgriITKetX[[2]][[1]] <- c("appat_m3", "lb_nid")
 listAgriITKetX[[3]][[1]] <- c("insect","piege_mala","appat_gf","ferti","taille")
-listAgriITKetX[[4]][[1]] <- c("labour", "labour", "taille","taille","insect","pro_effic","lb_nid")
+listAgriITKetX[[4]][[1]] <- c("labour", "pro_effic")
 
 # scoreindiv <- rep(NA, length(listAgriITKetX))
 # a <- rep(NA, length(listAgriITKetX))
