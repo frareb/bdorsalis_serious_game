@@ -8,7 +8,7 @@ setwd("./R")
 niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
 tauxDePertesBD <- 0.6
-rdtOptimal <- c(70, 50, 60, 80)
+rdtOptimal <- c(10, 20, 10, 30)
 ag01 <- list(
   itk = c("pro_effic"), 
   X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
@@ -22,7 +22,7 @@ ag03 <- list(
   X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
-  itk = c("pro_effic", "pro_effic", "pro_effic", "pro_effic", "pro_effic"), 
+  itk = c("pro_effic", "pro_effic", "pro_effic"), 
   X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
 )
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
@@ -101,7 +101,7 @@ calculRdt <- function(){
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
     if (calculTxNoteITK()[i]<0.5) {
-      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.2) 
+      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.1) 
     }else if(calculTxNoteITK()[i]>1){ 
       rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD-0.2)
     }else{ 
@@ -110,6 +110,7 @@ calculRdt <- function(){
     msg <- paste0(
       "Agri", i, 
       ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
+      " ; rdt début tour: ", round(listAgriITKetX[[c(i,2)]], digits = 2),
       " ; note ITK: ", round(calculTxNoteITK()[i], digits = 2), 
       " ; rdt réel: ", round(rdtReel, digits = 2),
       "\n"
@@ -139,10 +140,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("lb_nid", "lb_nid","lb_nid")
-listAgriITKetX[[2]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
+listAgriITKetX[[1]][[1]] <- c("lb_nid")
+listAgriITKetX[[2]][[1]] <- c("dsb","lb_nid", "lb_nid")
 listAgriITKetX[[3]][[1]] <- c("dsb")
-listAgriITKetX[[4]][[1]] <- c("dsb","lb_nid", "lb_nid","lb_nid")
+listAgriITKetX[[4]][[1]] <- c("dsb","lb_nid", "lb_nid")
 
 # scoreindiv <- rep(NA, length(listAgriITKetX))
 # a <- rep(NA, length(listAgriITKetX))
