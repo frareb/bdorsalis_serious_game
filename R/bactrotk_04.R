@@ -5,24 +5,25 @@
 setwd("./R")
 
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
-niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
+niveauDeDifficulte <- 3 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
-tauxDePertesBD <- 0.6
-rdtOptimal <- c(10, 20, 10, 30)
+#nv3 : les agri doivent faire au moins un tiers des pratiques
+tauxDePertesBD <- 0.5
+rdtOptimal <- c(10, 15, 20, 30)
 ag01 <- list(
-  itk = c("pro_effic"), 
+  itk = c("taille","appat_m3"), 
   X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
 )
 ag02 <- list(
-  itk = c("dsb","dsb","piege_muscba"), 
+  itk = c("irr","piege_mala","appat_gf","ferti"), 
   X2_depart = rdtOptimal[2] - rdtOptimal[2]*tauxDePertesBD
 )
 ag03 <- list(
-  itk = c("appat_gf"), 
+  itk = c("insect","piege_mala","appat_gf","ferti","taille"), 
   X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
-  itk = c("pro_effic", "pro_effic", "pro_effic"), 
+  itk = c("labour", "labour", "taille","taille","insect"), 
   X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
 )
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
@@ -87,7 +88,7 @@ calculTxNoteITK <- function(){
 # calcul du rdt avec le taux de note ITK et incidence BD
 calculRdt <- function(){
   if(mean(calculTxNoteITK()) > 1){
-    newTauxDePertesBD <- tauxDePertesBD - tauxDePertesBD*0.1
+    newTauxDePertesBD <- tauxDePertesBD - tauxDePertesBD*0.1 
   } else {
     newTauxDePertesBD <- tauxDePertesBD + tauxDePertesBD*0.1
   }
@@ -102,7 +103,7 @@ calculRdt <- function(){
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
     if (calculTxNoteITK()[i]<0.5) {
       rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.1) 
-    }else if(calculTxNoteITK()[i]>1){ 
+    }else if(calculTxNoteITK()[i]>=1){ 
       rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD-0.2)
     }else{ 
       rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.1)
@@ -140,10 +141,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("lb_nid")
-listAgriITKetX[[2]][[1]] <- c("dsb","lb_nid", "lb_nid")
-listAgriITKetX[[3]][[1]] <- c("dsb")
-listAgriITKetX[[4]][[1]] <- c("dsb","lb_nid", "lb_nid")
+listAgriITKetX[[1]][[1]] <- c("piege_mala")
+listAgriITKetX[[2]][[1]] <- c("taille", "lb_nid")
+listAgriITKetX[[3]][[1]] <- c("insect","piege_mala","appat_gf","ferti","taille")
+listAgriITKetX[[4]][[1]] <- c("labour", "labour", "taille","taille","insect","pro_effic","lb_nid")
 
 # scoreindiv <- rep(NA, length(listAgriITKetX))
 # a <- rep(NA, length(listAgriITKetX))
