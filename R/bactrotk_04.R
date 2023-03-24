@@ -5,25 +5,23 @@
 setwd("./R")
 
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
-niveauDeDifficulte <- 3 #nv1 : les agri doivent faire beaucoup de pratiques
-#nv2 : les agri doivent au moins faire la moitié des pratiques
-#nv3 : les agri doivent faire au moins un tiers des pratiques
-tauxDePertesBD <- 0.5
+niveauDeDifficulte <- 2
+tauxDePertesBD <- 0.4
 rdtOptimal <- c(30, 30, 30, 30)
 ag01 <- list(
-  itk = c("taille","appat_m3","lb_nid", "dsb"), 
+  itk = c("irr","ferti", "taille","labour", "lb_nid", "pro_effic","lb_fopius"), 
   X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
 )
 ag02 <- list(
-  itk = c("irr","piege_mala","appat_gf","ferti", "dsb"), 
+  itk = c("irr","piege_mala","appat_gf", "dsb","insect"), 
   X2_depart = rdtOptimal[2] - rdtOptimal[2]*tauxDePertesBD
 )
 ag03 <- list(
-  itk = c("insect","piege_mala","appat_gf","ferti","taille"), 
+  itk = c("insect","piege_mala","appat_gf","ferti","taille","dsb"), 
   X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
-  itk = c("labour", "labour", "taille","insect"), 
+  itk = c("labour","dsb", "irr"), 
   X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
 )
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
@@ -102,11 +100,11 @@ calculRdt <- function(){
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
     if (calculTxNoteITK()[i]<0.5) {
-      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.1) 
+      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.15) 
     }else if(calculTxNoteITK()[i]>=1){ 
-      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD-0.2)
+      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD-0.20)
     }else{ 
-      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.1)
+      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.10)
     } 
     msg <- paste0(
       "Agri", i, 
@@ -141,10 +139,16 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("piege_mala","taille")
-listAgriITKetX[[2]][[1]] <- c("appat_m3", "lb_nid")
-listAgriITKetX[[3]][[1]] <- c("insect","piege_mala","appat_gf","ferti","taille")
-listAgriITKetX[[4]][[1]] <- c("labour", "pro_effic")
+listAgriITKetX[[1]][[1]] <- c("ferti","lb_nid","taille","dsb")
+listAgriITKetX[[2]][[1]] <- c( "taille","ferti","lb_nid","dsb")
+listAgriITKetX[[3]][[1]] <- c("appat_gf","ferti","lb_nid","dsb")
+listAgriITKetX[[4]][[1]] <- c(  "lb_nid")
+
+# --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
+niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
+#nv2 : les agri doivent au moins faire la moitié des pratiques
+#nv3 : les agri doivent faire au moins un tiers des pratiques
+
 
 # scoreindiv <- rep(NA, length(listAgriITKetX))
 # a <- rep(NA, length(listAgriITKetX))
