@@ -7,18 +7,18 @@ setwd("./R")
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 bloc00 <- {
 niveauDeDifficulte <- 4
-tauxDePertesBD <- 0.1
+tauxDePertesBD <- 0.15
 rdtOptimal <- c(20, 20, 20, 20)
 ag01 <- list(
-    itk = c("pre", "pma"), 
+    itk = c("pre", "pma","tai"), 
     X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
 )
 ag02 <- list(
-    itk = c("irr","pba"), 
+    itk = c("irr","pba","irr"), 
     X2_depart = rdtOptimal[2] - rdtOptimal[2]*tauxDePertesBD
 )
 ag03 <- list(
-    itk = c("pba","bio"), 
+    itk = c("pba","bio","lbn"), 
     X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
@@ -97,6 +97,12 @@ calculTxNoteITKrdt <- function(){
     tauxMyITKnoterdt <- get_itkrendement_score(monTK = listAgriITKetX[[c(i,1)]])/bestITKrdtnote
   })
 }
+#Calcul qualité 
+calculqualite <- function(){
+  sapply(seq_along(listAgriITKetX), function(i){
+    qualite <- (calculTxNoteITKmouche()[i]+calculTxNoteITKrdt()[i]-tauxDePertesBD)
+  })
+}
 # calcul du rdt avec le taux de note ITK et incidence BD
 calculRdt <- function(){
   if( sum(calculTxNoteITKmouche()>=1)>=(0.5*(length(listAgriITKetX)))){ 
@@ -113,7 +119,7 @@ calculRdt <- function(){
   tauxDePertesBD <- newTauxDePertesBD
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
-    if (tauxDePertesBD > 0.15) {
+    if (tauxDePertesBD > 0.15) { #prend en compte le nouveau taux de perte
       if (calculTxNoteITKmouche()[i]<0.5) {
         rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.15) 
       }else if(calculTxNoteITKmouche()[i]>=1){ 
@@ -140,6 +146,7 @@ calculRdt <- function(){
       " ; note ITK rdt: ", round(calculTxNoteITKrdt()[i], digits = 2), 
       " ; note ITK mouche: ", round(calculTxNoteITKmouche()[i], digits = 2), 
       " ; rdt réel: ", round(floor(rdtReel), digits = 2),
+      " ; qualité: ",round(calculqualite()[i]),
       "\n"
     )
     cat(msg)
@@ -159,10 +166,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("pre", "pma","tai","bio")
-listAgriITKetX[[2]][[1]] <- c("pre", "pma","fer","lbn" )
-listAgriITKetX[[3]][[1]] <- c("pre", "pma","irr","apg")
-listAgriITKetX[[4]][[1]] <- c("pre", "pma","dsb","fer")
+listAgriITKetX[[1]][[1]] <- c("pre", "pma","tai","bio","lbn","irr")
+listAgriITKetX[[2]][[1]] <- c("pre","fer","lbn","tai","tai" )
+listAgriITKetX[[3]][[1]] <- c("pre", "pma","irr","apg","tai","irr")
+listAgriITKetX[[4]][[1]] <- c("pre", "pma","dsb","fer","irr")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
 niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
