@@ -159,11 +159,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("pro_coin","pro_coin", "appat_gf","piege_mala", "lb_nid","taille","appat_gf")
-listAgriITKetX[[2]][[1]] <- c( "pro_coin","pro_coin", "appat_gf","piege_mala", "lb_nid","taille","appat_gf")
-listAgriITKetX[[3]][[1]] <- c("pro_coin","pro_coin", "appat_gf","piege_mala", "lb_nid","taille","appat_gf")
-listAgriITKetX[[4]][[1]] <- c( "pro_coin","pro_coin", "appat_gf","piege_mala", "lb_nid","taille","appat_gf")
-
+listAgriITKetX[[1]][[1]] <- c("pre", "pma","tai","bio")
+listAgriITKetX[[2]][[1]] <- c("pre", "pma","fer","lbn" )
+listAgriITKetX[[3]][[1]] <- c("pre", "pma","irr","apg")
+listAgriITKetX[[4]][[1]] <- c("pre", "pma","dsb","fer")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
 niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
