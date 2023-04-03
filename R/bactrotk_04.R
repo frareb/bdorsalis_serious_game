@@ -52,15 +52,22 @@ get_RN_score <- function(ressncrs){
 
 # Somme de l'impact des pratiques par rapport à BD sur rendement :  si positif,
 #   choix de la pratique efficace contre prévalence mouche
-get_itk_score <- function(monTK){ 
+get_itkmouche_score <- function(monTK){ 
   scorei <- sapply(seq_along(monTK), function(i){
-    score <- itk[itk$modalite.abr == monTK[i],]$impactbdsurdt
+    score <- itk[itk$modalite.abr == monTK[i],]$impactmosurbd
     if(length(score) == 0){score <- NA}
     return(score)
   })
   return(sum(scorei))
 }
-
+get_itkrendement_score <- function(monTK){ 
+  scorei <- sapply(seq_along(monTK), function(i){
+    score <- itk[itk$modalite.abr == monTK[i],]$impactmosurrdt
+    if(length(score) == 0){score <- NA}
+    return(score)
+  })
+  return(sum(scorei))
+}
 # Verification du nombre de points de jeu pour chaque agriculteur
 verifNumPoints <- function(listAgriITKetX){
   msg <- "Vérification du nombre de points"
