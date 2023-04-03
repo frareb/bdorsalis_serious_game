@@ -8,7 +8,7 @@ setwd("./R")
 bloc00 <- {
 niveauDeDifficulte <- 4
 tauxDePertesBD <- 0.15
-rdtOptimal <- c(20, 20, 20, 20)
+rdtOptimal <- c(10, 20, 30, 12)
 ag01 <- list(
     itk = c("pre", "pma","tai"), 
     X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
@@ -139,6 +139,7 @@ calculRdt <- function(){
         rdtReel <- rdtOptimal[i]*calculTxNoteITKrdt()[i]
       }  
     }
+    if (rdtReel > rdtOptimal [i]){rdtReel <- rdtOptimal[i]} #si rendement final dépasse, donner rendement final #à supp pour calibrer?
     msg <- paste0(
       "Agri", i, 
       ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
@@ -150,7 +151,7 @@ calculRdt <- function(){
       "\n"
     )
     cat(msg)
-    return(floor(rdtReel))
+    return(rdtReel)
   })
   return(list(tauxDePertesBD, rdtReel))
 }
@@ -166,10 +167,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("pre", "pma","tai","bio","lbn","irr")
+listAgriITKetX[[1]][[1]] <- c("pre","tai")
 listAgriITKetX[[2]][[1]] <- c("pre","fer","lbn","tai","tai" )
-listAgriITKetX[[3]][[1]] <- c("pre", "pma","irr","apg","tai","irr")
-listAgriITKetX[[4]][[1]] <- c("pre", "pma","dsb","fer","irr")
+listAgriITKetX[[3]][[1]] <- c("pre", "pma","irr","apg","tai","irr","pre")
+listAgriITKetX[[4]][[1]] <- c("pre", "pma","dsb","fer")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
 niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
