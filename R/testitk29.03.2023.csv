@@ -1,0 +1,22 @@
+pratiques agricoles,descriptif_pra,modalite,Fréquence ,Nb de fois possible,descriptif_mo,modalite.abr,ressources ncsr,impactmosurbd,impactmosurrdt
+irrigation,Irrigation,,oui;non,1,,irr,2,-1,2
+fertilisation,"Fumure, dechets organiques, residus organiques",Fertilisation,oui;non,1,,fer,1,0,2
+desherbage,mecanique ou chimique,Desherbage,1/semaine; 1/saison; jamais,2,,dsb,2,1,0
+labour,,Labour,1/semaine; 1/saison; jamais,2,Labourage peu profond pour éliminer les larves par enfouissement,lab,2,1,1
+taille des manguiers,,Taille,"2/an, 1/an, 1 ts 2/3 ans, 1 tous les 5 ans, jamais",2,Taille et elagage pour reduire condition favorable Bd,tai,3,2,3
+bioinsecticides m,Pulvérisation aérienne et terrestre de pesticides pour éliminer les mouches à tous les stades de développement.,"Huile de Neem, Feuilles de Neem broyees, Baume de cajou",Ap chaq pluie; 1/saison; jamais,2,Bioinsecticide,bio,1,1,0
+Insecticides m,Pulvérisation aérienne et terrestre de pesticides pour éliminer les mouches à tous les stades de développement.,Diométhoate ou Deltamétrine,Ap chaq pluie; 1/saison; jamais,2,Chimique,ins,2,1,0
+prophylaxie ,Collecte et gestion des mangues tombees,"Enfouissement, incineration, alimentation betail, sac poubelle, augmentorium",1/semaine; 1/saison; jamais,2,,pre,3,2,0
+prophylaxie ,Collecte des mangues tombees,Depose dans coin,1/semaine; 1/saison; jamais,2,,prc,3,-1,0
+piegeage de masse,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Malatrap,1/semaine; 1/saison; jamais,2,"75% de méthyl eugénol (paraphéromone)
+25% de malathion (insecticide organophosphoré)",pma,2,2,0
+piegeage de masse,"Attraction des mouches mâles avec des leurres à phéromones et élimination
+avec des insecticides contenus dans les pièges.",Muscade ou Basilique et Insecticide,1/semaine; 1/saison; jamais,2,Noix de muscade + Net ou autres insecticides,pba,2,1,0
+appat alimentaire,"Attraction et élimination des mouches mâles et femelles qui se nourrissent de
+la substance alimentaire mélangée à l'insecticide.",SuccessAppat/GF120,1/semaine; 1/saison; jamais,2,Insecticide à base de spinosad (0.24 g/l) mélangé à un hydrolysat de protéine (substance alimentaire),apg,2,2,0
+appat alimentaire,"Attraction et élimination des mouches mâles et femelles qui se nourrissent de
+la substance alimentaire mélangée à l'insecticide.",M3 bait station,1/semaine; 1/saison; jamais,2,Hydrolysat de protéine + alpha cyperméthrine,apm,2,1,0
+Lutte biologique,Utilisation des insectes prédateurs naturels des mouches des fruits.,Parasitoide,oui;non,1,Fopius arisanus,lbf,3,2,0
+Lutte biologique,Utilisation des insectes prédateurs naturels des mouches des fruits.,Entomopathogene,oui;non,1,Metarhizium anisopliae,lbe,3,1,0
+Lutte biologique,Utilisation des insectes prédateurs naturels des mouches des fruits.,ConservationNidPredateurNaturel,oui;non,1,Fourmi tisserande,lbn,1,3,0
