@@ -99,32 +99,46 @@ calculTxNoteITKrdt <- function(){
 }
 # calcul du rdt avec le taux de note ITK et incidence BD
 calculRdt <- function(){
-  if( sum(calculTxNoteITK()>=1)>=(0.5*(length(listAgriITKetX)))){ #(mean(calculTxNoteITK()) > 1) : ne permet de renvoyer si la plupart ont bien réussi 
+  if( sum(calculTxNoteITKmouche()>=1)>=(0.5*(length(listAgriITKetX)))){ 
     newTauxDePertesBD <- tauxDePertesBD - tauxDePertesBD*0.1 
   } else {
     newTauxDePertesBD <- tauxDePertesBD + tauxDePertesBD*0.1
   }
-  msg <- paste0("Moy. note ITK: ", round(mean(calculTxNoteITK()), digits = 2), "\n",
-    "Taux de pertes BD initial: ", round(tauxDePertesBD, digits= 2), 
-    ". Nouveau taux : ", 
-    newTauxDePertesBD, ".\n"
+  msg <- paste0("Moy. note ITK: ", round(mean(calculTxNoteITKmouche()), digits = 2), "\n",
+                "Taux de pertes BD initial: ", round(tauxDePertesBD, digits= 2), 
+                ". Nouveau taux : ", 
+                newTauxDePertesBD, ".\n"
   )
   cat(msg)
   tauxDePertesBD <- newTauxDePertesBD
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
-    if (calculTxNoteITK()[i]<0.5) {
-      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.15) 
-    }else if(calculTxNoteITK()[i]>=1){ 
-      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD-0.20)
-    }else{ 
-      rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.10)
-    } 
+    if (tauxDePertesBD > 0.15) {
+      if (calculTxNoteITKmouche()[i]<0.5) {
+        rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.15) 
+      }else if(calculTxNoteITKmouche()[i]>=1){ 
+        rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD-0.15)
+      }else{ 
+        rdtReel <-rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD+0.10)
+      } 
+      if (calculTxNoteITKrdt()[i]>=1) {
+        rdtReel <-rdtReel +  3
+      } 
+    }else{
+      if(calculTxNoteITKrdt()[i]>=1) {
+        rdtReel<- rdtOptimal[i]
+      }else if (calculTxNoteITKrdt()[i]<0.7) {
+        rdtReel<- rdtOptimal[i]*0.75
+      }else{
+        rdtReel <- rdtOptimal[i]*calculTxNoteITKrdt()[i]
+      }  
+    }
     msg <- paste0(
       "Agri", i, 
       ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
       " ; rdt début tour: ", round(listAgriITKetX[[c(i,2)]], digits = 2),
-      " ; note ITK: ", round(calculTxNoteITK()[i], digits = 2), 
+      " ; note ITK rdt: ", round(calculTxNoteITKrdt()[i], digits = 2), 
+      " ; note ITK mouche: ", round(calculTxNoteITKmouche()[i], digits = 2), 
       " ; rdt réel: ", round(floor(rdtReel), digits = 2),
       "\n"
     )
@@ -133,14 +147,6 @@ calculRdt <- function(){
   })
   return(list(tauxDePertesBD, rdtReel))
 }
-
-#modifier rdtReel : rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD + tauxDePertesBD*calculTxNoteITK()[i]) 
-# car renvoie rendement plus élevé pour tous
-#idee 1 : rdtReel <- rdtOptimal[i] - rdtOptimal[i]*(tauxDePertesBD) * calculTxNoteITK()[i] 
-#ne fonctionne pas
-#On a : rdtOptimal[i] -  rdtOptimal[i]*(tauxDePertesBD)
-#On veut le moduler en fonction de la note des agri (calculTxNoteITK)
-
 
 }
 
