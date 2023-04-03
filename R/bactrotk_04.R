@@ -6,40 +6,40 @@ setwd("./R")
 
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 bloc00 <- {
-  niveauDeDifficulte <- 4
-  tauxDePertesBD <- 0.1
-  rdtOptimal <- c(20, 20, 20, 20)
-  ag01 <- list(
+niveauDeDifficulte <- 4
+tauxDePertesBD <- 0.1
+rdtOptimal <- c(20, 20, 20, 20)
+ag01 <- list(
     itk = c("pre", "pma"), 
     X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
-  )
-  ag02 <- list(
+)
+ag02 <- list(
     itk = c("irr","pba"), 
     X2_depart = rdtOptimal[2] - rdtOptimal[2]*tauxDePertesBD
-  )
-  ag03 <- list(
+)
+ag03 <- list(
     itk = c("pba","bio"), 
     X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
-  )
-  ag04 <- list(
+)
+ag04 <- list(
     itk = c("lbn","dsb"), 
     X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
-  )
-  listAgriITKetX <- list(ag01, ag02, ag03, ag04)
-  listAgriITKetX #afficher points
+)
+listAgriITKetX <- list(ag01, ag02, ag03, ag04)
+listAgriITKetX #afficher points
 }
 # -----------------------------------------------------------------------------
-
 # --- 2. CHARGEMENT DES DONNEES ET FONCTIONS ----------------------------------
 bloc01 <- {
-
+  
 # Chargement de la liste des pratiques culturales
-itk <- read.csv(file = "pratiques23022023.csv", dec = ",", header = TRUE) 
-# la meilleure note technique en utilisant toutes les pratiques. Ici je mets
-# la meilleure note sur 2 de façon à avoir un score supérieur à 1 si les 
-# agris font au moins la moitié des bonnes pratiques
-bestITKnote <- sum(itk$impactbdsurdt[itk$impactbdsurdt > 0]) / niveauDeDifficulte
-
+itk <- read.csv(file = "testitk29.03.2023.csv", dec = ",", header = TRUE) 
+# la meilleure note technique en utilisant la moitié, le quart...des pratiques  #prise en compte de la fréquence
+bestITKmouchenote <- sum(itk$impactmosurbd[itk$impactmosurbd > 0]*itk$Nb.de.fois.possible[itk$impactmosurbd > 0]) / niveauDeDifficulte 
+  
+#bestITKrdtnote <- sum(itk$impactmosurrdt[itk$impactmosurrdt > 0])  #prise en compte de la fréquence
+bestITKrdtnote <- sum(itk$impactmosurrdt[itk$impactmosurrdt > 0]*itk$Nb.de.fois.possible[itk$impactmosurrdt > 0]) / 2
+  
 # Somme des points requis des cartes jouées
 get_RN_score <- function(ressncrs){ 
   scorei <- sapply(seq_along(ressncrs), function(i){
