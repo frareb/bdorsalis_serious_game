@@ -87,12 +87,16 @@ verifNumPoints <- function(listAgriITKetX){
   return(msg)
 }
 
-calculTxNoteITK <- function(){
+calculTxNoteITKmouche <- function(){
   sapply(seq_along(listAgriITKetX), function(i){
-    tauxMyITKnote <- get_itk_score(monTK = listAgriITKetX[[c(i,1)]])/bestITKnote
+    tauxMyITKnote <- get_itkmouche_score(monTK = listAgriITKetX[[c(i,1)]])/bestITKmouchenote
   })
 }
-
+calculTxNoteITKrdt <- function(){
+  sapply(seq_along(listAgriITKetX), function(i){
+    tauxMyITKnoterdt <- get_itkrendement_score(monTK = listAgriITKetX[[c(i,1)]])/bestITKrdtnote
+  })
+}
 # calcul du rdt avec le taux de note ITK et incidence BD
 calculRdt <- function(){
   if( sum(calculTxNoteITK()>=1)>=(0.5*(length(listAgriITKetX)))){ #(mean(calculTxNoteITK()) > 1) : ne permet de renvoyer si la plupart ont bien réussi 
