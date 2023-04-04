@@ -7,27 +7,27 @@ setwd("./R")
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 bloc00 <- {
 niveauDeDifficulte <- 4
-tauxDePertesBD <- 0.15
-rdtOptimal <- c(10, 20, 30, 12)
+tauxDePertesBD <- 0.3
+rdtOptimal <- c(40, 20, 30, 15)
 ag01 <- list(
-    itk = c("pre", "pma","tai"), 
+    itk = c("irr","tai","fer","dsb", "ins","pma","apg","pre" ), 
     X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
 )
 ag02 <- list(
-    itk = c("irr","pba","irr"), 
+    itk = c("lab","prc","irr"), 
     X2_depart = rdtOptimal[2] - rdtOptimal[2]*tauxDePertesBD
 )
 ag03 <- list(
-    itk = c("pba","bio","lbn"), 
+    itk = c("bio","pba","lbn","tai"), 
     X3_depart = rdtOptimal[3] - rdtOptimal[3]*tauxDePertesBD
 )
 ag04 <- list(
-    itk = c("lbn","dsb"), 
+    itk = c("lab","irr"), 
     X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
 )
 listAgriITKetX <- list(ag01, ag02, ag03, ag04)
-listAgriITKetX #afficher points
 }
+listAgriITKetX #afficher points
 # -----------------------------------------------------------------------------
 # --- 2. CHARGEMENT DES DONNEES ET FONCTIONS ----------------------------------
 bloc01 <- {
@@ -100,7 +100,9 @@ calculTxNoteITKrdt <- function(){
 #Calcul qualité 
 calculqualite <- function(){
   sapply(seq_along(listAgriITKetX), function(i){
-    qualite <- (calculTxNoteITKmouche()[i]+calculTxNoteITKrdt()[i]-tauxDePertesBD)
+    qualite <- (calculTxNoteITKmouche()[i]+calculTxNoteITKrdt()[i]-tauxDePertesBD)*2 #*2 pour prendre en compte décimal et avoir score plus haut
+    #changer formule ou faire un if car si un joueur investi bcp dans rdt mais pas mouche, 
+    # il aura une meilleur qualité que ceux qui investissent dans les deux
   })
 }
 # calcul du rdt avec le taux de note ITK et incidence BD
@@ -143,10 +145,10 @@ calculRdt <- function(){
     msg <- paste0(
       "Agri", i, 
       ": rdt optimal: ", round(rdtOptimal[i], digits = 2),
-      " ; rdt début tour: ", round(listAgriITKetX[[c(i,2)]], digits = 2),
+      " ; rdt début : ", round(listAgriITKetX[[c(i,2)]], digits = 2),
+      " ; rdt réel: ", round(rdtReel, digits = 2),
       " ; note ITK rdt: ", round(calculTxNoteITKrdt()[i], digits = 2), 
       " ; note ITK mouche: ", round(calculTxNoteITKmouche()[i], digits = 2), 
-      " ; rdt réel: ", round(floor(rdtReel), digits = 2),
       " ; qualité: ",round(calculqualite()[i]),
       "\n"
     )
@@ -157,7 +159,6 @@ calculRdt <- function(){
 }
 
 }
-
 # --- 3. BOUCLE DU JEU --------------------------------------------------------
 listAgriITKetX #afficher points
 cat(verifNumPoints(listAgriITKetX)) # vérif nombre de points
@@ -167,10 +168,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("pre","tai")
-listAgriITKetX[[2]][[1]] <- c("pre","fer","lbn","tai","tai" )
-listAgriITKetX[[3]][[1]] <- c("pre", "pma","irr","apg","tai","irr","pre")
-listAgriITKetX[[4]][[1]] <- c("pre", "pma","dsb","fer")
+listAgriITKetX[[1]][[1]] <- c("irr","tai","fer","dsb", "ins","pma","apg","pre","tai","dsb" )
+listAgriITKetX[[2]][[1]] <- c("lab","prc","irr" ,"fer","dsb")
+listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","tai","lbn","apg","dsb")
+listAgriITKetX[[4]][[1]] <- c("pre","fer","tai","irr")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
 niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
