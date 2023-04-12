@@ -7,7 +7,7 @@ setwd("./R")
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 bloc00 <- {
   niveauDeDifficulte <- 3
-  tauxDePertesBD <- 0.36
+  tauxDePertesBD <- 0.7
   rdtOptimal <- c(20, 20, 20, 20)
   ag01 <- list(
     itk = c("irr","tai","fer","dsb", "ins","pma","apg","pre" ), 
@@ -137,14 +137,14 @@ calculRdt <- function(){
   if(tauxDePertesBD > 1){tauxDePertesBD <- 1}
   rdtReel <- sapply(seq_along(listAgriITKetX), function(i){
     if (tauxDePertesBD>0.20){
-      if (tauxDePertesBD>0.8){
+      if (tauxDePertesBD>0.75){
         rdtReel <- 0.5*rdtOptimal[i] + ((0.5*rdtOptimal[i])* calculTxNoteITKrdt()[i])-(0.5*rdtOptimal[i])*0.95
       }else if(calculTxNoteITKrdt()[i]<=0){
         rdtReel <- 0.5*rdtOptimal[i] - (0.5*rdtOptimal[i])*(tauxDePertesBD+tauxDePertesBD* (1-calculTxNoteITKmouche()[i]))
       }else if(calculTxNoteITKmouche()[i]<=0){
         rdtReel <- 0.5*rdtOptimal[i] + ((0.5*rdtOptimal[i])* calculTxNoteITKrdt()[i])-(0.5*rdtOptimal[i])*0.95
       }else{
-        rdtReel <- 0.5*rdtOptimal[i] + ((0.5*rdtOptimal[i])* calculTxNoteITKrdt()[i])-(0.5*rdtOptimal[i])*(tauxDePertesBD+tauxDePertesBD* (1-calculTxNoteITKmouche()[i]))
+        rdtReel <- 0.5*rdtOptimal[i] + ((0.5*rdtOptimal[i])* calculTxNoteITKrdt()[i])-(0.5*rdtOptimal[i])*(tauxDePertesBD+tauxDePertesBD* (1-calculTxNoteITKmouche()[i])) #appliquer taux de perte à tout rdt optimal ou à 50%?
       }
    }else{
         rdtReel <- 0.5*rdtOptimal[i] + ((0.5*rdtOptimal[i])* calculTxNoteITKrdt()[i])
@@ -178,7 +178,7 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   return(listAgriITKetX[[i]])
 })
 listAgriITKetX[[1]][[1]] <- c("lbe","tai","pre","apg","fer")
-listAgriITKetX[[2]][[1]] <- c("fer","dsb","lbn","tai","dsb", "ins","pma","apg","pre","tai")
+listAgriITKetX[[2]][[1]] <- c("fer","tai")
 listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","fer","tai","dsb")
 listAgriITKetX[[4]][[1]] <- c("tai","fer","dsb","lbn","tai","fer","dsb","pre","fer","apg","pre")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
