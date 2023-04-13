@@ -25,10 +25,11 @@ bloc00 <- {
     itk = c("lab","irr"), 
     X4_depart = rdtOptimal[4] - rdtOptimal[4]*tauxDePertesBD
   )
-  listAgriITKetX <- list(ag01, ag02, ag03, ag04)
+  listAgriITKetX <- list(ag01 = ag01, ag02 = ag02, ag03 = ag03, ag04 = ag04)
 }
 #afficher points de départs
-for (i in 1:length(listAgriITKetX)) { print (listAgriITKetX[[c(i,2)]])} 
+# for (i in 1:length(listAgriITKetX)) { print (listAgriITKetX[[c(i,2)]])} 
+sapply(listAgriITKetX, "[[", 2)
 # -----------------------------------------------------------------------------
 # --- 2. CHARGEMENT DES DONNEES ET FONCTIONS ----------------------------------
 bloc01 <- {
