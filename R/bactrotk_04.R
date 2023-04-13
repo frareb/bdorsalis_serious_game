@@ -7,10 +7,10 @@ setwd("./R")
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 bloc00 <- {
   niveauDeDifficulte <- 3
-  tauxDePertesBD <- 0.7
-  rdtOptimal <- c(20, 20, 20, 20)
+  tauxDePertesBD <- 0.33
+  rdtOptimal <- c(40, 40, 40, 40)
   ag01 <- list(
-    itk = c("irr","tai","fer","dsb", "ins","pma","apg","pre" ), 
+    itk = c("irr","pma","apg","pre" ), 
     X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
   )
   ag02 <- list(
@@ -116,7 +116,7 @@ calculqualite <- function(){
         qualite <- 10
       }
     }else{
-      qualite <- 8 #à modifier  
+      qualite <- 7 + calculTxNoteITKmouche()[i]*3  #à modifier  
     }
   })
 }
@@ -177,10 +177,10 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("lbe","tai","pre","apg","fer")
-listAgriITKetX[[2]][[1]] <- c("fer","tai")
-listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","fer","tai","dsb")
-listAgriITKetX[[4]][[1]] <- c("tai","fer","dsb","lbn","tai","fer","dsb","pre","fer","apg","pre")
+listAgriITKetX[[1]][[1]] <- c("lbe","tai","pre","apg","fer","lbn")
+listAgriITKetX[[2]][[1]] <- c("fer","tai", "bio", "dsb")
+listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","fer","tai","dsb","ins")
+listAgriITKetX[[4]][[1]] <- c("irr","fer","lab","lab","tai","tai")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
 niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
