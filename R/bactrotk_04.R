@@ -170,7 +170,8 @@ calculRdt <- function(){
   
 }
 # --- 3. BOUCLE DU JEU --------------------------------------------------------
-listAgriITKetX #afficher points
+# listAgriITKetX #afficher points
+sapply(listAgriITKetX, "[[", 2)
 cat(verifNumPoints(listAgriITKetX)) # vérif nombre de points
 tourDeJeu <- calculRdt() # rdt en fin de tour et nouveau taux de pertes BD
 tauxDePertesBD <- tourDeJeu[[1]]
@@ -183,7 +184,8 @@ listAgriITKetX[[2]][[1]] <- c("fer","tai", "bio", "dsb")
 listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","fer","tai","dsb","ins")
 listAgriITKetX[[4]][[1]] <- c("irr","fer","lab","lab","tai","tai")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
-niveauDeDifficulte <- 2 #nv1 : les agri doivent faire beaucoup de pratiques
+niveauDeDifficulte <- 2 
+#nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
 #nv3 : les agri doivent faire au moins un tiers des pratiques
 
