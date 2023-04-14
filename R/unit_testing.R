@@ -148,7 +148,7 @@ for(myRound in 1:numGameRounds){
   dashboardGame <- append(dashboardGame, list(recordScores))
 }
 
-pdf("dashboardGame4.pdf", height = 6, width = 8)
+pdf("dashboardGame3.pdf", height = 6, width = 8)
 par(mar = c(2, 4, 1, 1))
 trash <- lapply(dashboardGame, function(zz){
   plot(
