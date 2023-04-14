@@ -1,5 +1,5 @@
 
-itk <- read.csv(file = "./R/testitk29.03.2023.csv", dec = ",", header = TRUE)
+itk <- read.csv(file = "testitk29.03.2023.csv", dec = ",", header = TRUE)
 get_itkmouche_score <- function(monTK){ 
   scorei <- sapply(seq_along(monTK), function(i){
     score <- itk[itk$modalite.abr == monTK[i],]$impactmosurbd
@@ -96,7 +96,7 @@ dashboardGame <- list()
 for(myRound in 1:numGameRounds){
   numPlayers <- sample(x = 4:10, size = 1) # nombre de joueurs
   numRounds <- 20 # nombre de tours par partie
-  niveauDeDifficulte <- sample(x = 1:3, size = 1) # niveau de difficulté
+  niveauDeDifficulte <- sample(x = 1:4, size = 1) # niveau de difficulté
   tauxDePertesBD <- sample(x = seq(from = 0, to = 1, by = 0.01), size = 1) # tx de perte début de tour
   rdtOptimal <- sample(x = 30:80, size = numPlayers) # rendement potentiel de chaque agriculteur
   
@@ -148,7 +148,7 @@ for(myRound in 1:numGameRounds){
   dashboardGame <- append(dashboardGame, list(recordScores))
 }
 
-pdf("dashboardGame.pdf", height = 6, width = 8)
+pdf("dashboardGame2.pdf", height = 6, width = 8)
 par(mar = c(2, 4, 1, 1))
 trash <- lapply(dashboardGame, function(zz){
   plot(
