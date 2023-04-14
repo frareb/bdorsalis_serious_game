@@ -59,6 +59,7 @@ get_itkmouche_score <- function(monTK){
     if(length(score) == 0){score <- NA}
     return(score)
   })
+  if((is.null(scorei)) | (length(scorei) == 0)){scorei <- 0}
   return(sum(scorei))
 }
 # Somme de l'impact des pratiques par rapport au rendement 
@@ -68,6 +69,7 @@ get_itkrendement_score <- function(monTK1){
     if(length(rscore) == 0){rscore <- NA}
     return(rscore)
   })
+  if((is.null(rscorei)) | (length(rscorei) == 0)){rscorei <- 0}
   return(sum(rscorei))
 }
 # Verification du nombre de points de jeu pour chaque agriculteur
@@ -179,16 +181,15 @@ listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
   listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
   return(listAgriITKetX[[i]])
 })
-listAgriITKetX[[1]][[1]] <- c("lbe","tai","pre","apg","fer","lbn")
-listAgriITKetX[[2]][[1]] <- c("fer","tai", "bio", "dsb")
-listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","fer","tai","dsb","ins")
-listAgriITKetX[[4]][[1]] <- c("irr","fer","lab","lab","tai","tai")
+listAgriITKetX[[1]][[1]] <- c("lbe","tai","pre")
+listAgriITKetX[[2]][[1]] <- c("fer","tai", "bio")
+listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","ins")
+listAgriITKetX[[4]][[1]] <- c("irr","fer","lab")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
 niveauDeDifficulte <- 2 
 #nv1 : les agri doivent faire beaucoup de pratiques
 #nv2 : les agri doivent au moins faire la moitié des pratiques
 #nv3 : les agri doivent faire au moins un tiers des pratiques
-
 
 
 # # la meilleure note technique en utilisant toutes les pratiques : 
