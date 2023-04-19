@@ -7,8 +7,8 @@ setwd("./R")
 # --- 1. INITIALISATION DU JEU ------------------------------------------------
 bloc00 <- {
   niveauDeDifficulte <- 3
-  tauxDePertesBD <- 0.33
-  rdtOptimal <- c(40, 40, 40, 40)
+  tauxDePertesBD <- 0.6
+  rdtOptimal <- c(60, 50,40, 30)
   ag01 <- list(
     itk = c("irr","pma","apg","pre" ), 
     X1_depart = rdtOptimal[1] - rdtOptimal[1]*tauxDePertesBD
@@ -31,6 +31,31 @@ bloc00 <- {
 # for (i in 1:length(listAgriITKetX)) { print (listAgriITKetX[[c(i,2)]])} 
 sapply(listAgriITKetX, "[[", 2)
 # -----------------------------------------------------------------------------
+bloc02 <- {
+  niveauDeDifficulte <- 3
+  tauxDePertesBD <- 0.35
+  rdtOptimal <- c(60, 50,40, 30)
+  ag01 <- list(
+    itk = c("irr","pma","apg","pre" ), 
+    X1_depart = 20
+  )
+  ag02 <- list(
+    itk = c("lab","prc","irr"), 
+    X2_depart = 35
+  )
+  ag03 <- list(
+    itk = c("bio","pba","lbn","tai"), 
+    X3_depart = 20
+  )
+  ag04 <- list(
+    itk = c("lab","irr"), 
+    X4_depart = 10
+  )
+  listAgriITKetX <- list(ag01 = ag01, ag02 = ag02, ag03 = ag03, ag04 = ag04)
+}
+#afficher points de départs
+# for (i in 1:length(listAgriITKetX)) { print (listAgriITKetX[[c(i,2)]])} 
+sapply(listAgriITKetX, "[[", 2)
 # --- 2. CHARGEMENT DES DONNEES ET FONCTIONS ----------------------------------
 bloc01 <- {
   
@@ -176,15 +201,16 @@ calculRdt <- function(){
 sapply(listAgriITKetX, "[[", 2)
 cat(verifNumPoints(listAgriITKetX)) # vérif nombre de points
 tourDeJeu <- calculRdt() # rdt en fin de tour et nouveau taux de pertes BD
-tauxDePertesBD <- tourDeJeu[[1]]
-listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
-  listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
-  return(listAgriITKetX[[i]])
-})
-listAgriITKetX[[1]][[1]] <- c("lbe","tai","pre")
-listAgriITKetX[[2]][[1]] <- c("fer","tai", "bio")
-listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","ins")
-listAgriITKetX[[4]][[1]] <- c("irr","fer","lab")
+
+#tauxDePertesBD <- tourDeJeu[[1]]
+#listAgriITKetX <- lapply(seq_along(listAgriITKetX), function(i){
+#  listAgriITKetX[[i]][[2]] <- tourDeJeu[[2]][i]
+#  return(listAgriITKetX[[i]])
+#})
+#listAgriITKetX[[1]][[1]] <- c("lbe","tai","pre")
+#listAgriITKetX[[2]][[1]] <- c("fer","tai", "bio")
+#listAgriITKetX[[3]][[1]] <- c("apg","tai","pre","apg","ins")
+#listAgriITKetX[[4]][[1]] <- c("irr","fer","lab")
 # --- 4. CHANGEMENTS ANNEXES AU COURS DU JEU --------------------------------------------------------
 niveauDeDifficulte <- 2 
 #nv1 : les agri doivent faire beaucoup de pratiques
