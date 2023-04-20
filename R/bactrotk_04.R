@@ -30,7 +30,7 @@ bloc00 <- {
 #afficher points de départs
 # for (i in 1:length(listAgriITKetX)) { print (listAgriITKetX[[c(i,2)]])} 
 sapply(listAgriITKetX, "[[", 2)
-# -----------------------------------------------------------------------------
+# ---BLOC02 TOUR 2,3...--------------------------------------------------------------------------
 bloc02 <- {
   niveauDeDifficulte <- 3
   tauxDePertesBD <- 0.35
