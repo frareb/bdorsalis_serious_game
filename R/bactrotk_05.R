@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # ESSAI N°4 : Impacts Bactrocera dorsalis en fonction des pratiques/luttes 
-#   agricoles (14.03.2023) Audrey N'Gom et François Rebaudo
+#   agricoles (11.05.2023) Audrey N'Gom et François Rebaudo
 # -----------------------------------------------------------------------------
 setwd("./R")
 setwd("C:/Users/etudiant/Documents/2023_AudreyNGom/github/bdorsalis_serious_game/R")
