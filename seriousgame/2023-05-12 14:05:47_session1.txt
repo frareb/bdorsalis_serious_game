@@ -1,0 +1,30 @@
+[1] "2023-05-12 14:05:47 CEST"
+
+INITIALISATION ------------------------------------------------------
+Niveau de difficulté : 3 
+Taux de perte : 0.4 
+Rendement potentiel : 20 25 60 75 
+---------------------------------------------------------------------
+$ag01
+[1] "lbn" "lbf" "fer" "bio" "irr" "fer" "pre"
+
+$ag02
+[1] "lbn" "irr" "pba" "apm" "tai" "dsb" "pre"
+
+$ag03
+[1] "irr" "fer" "dsb" "pre" "lab" "lbn"
+
+$ag04
+[1] "irr" "fer" "pba" "prc" "dsb"
+
+Vérification du nombre de points
+Agri1: 12/12 points utilisés : OK
+Agri2: 13/15 points utilisés : OK
+Agri3: 9/36 points utilisés : OK
+Agri4: 9/45 points utilisés : OK
+
+"agri" "mouche" "rdtOptimaldata" "rdtdebut" "rdtreel" "noteITKrdt" "noteITKmouche" "qualite" "tour"
+"Agri1" "0.44" "20" "12" "12.1" "0.43" "0.65" "5" "1.1"
+"Agri2" "0.44" "25" "15" "14.8" "0.36" "0.78" "5" "1.1"
+"Agri3" "0.44" "60" "36" "35" "0.36" "0.59" "5" "1.1"
+"Agri4" "0.44" "75" "45" "41.1" "0.29" "0" "3" "1.1"

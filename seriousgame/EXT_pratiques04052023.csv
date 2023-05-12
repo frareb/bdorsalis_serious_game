@@ -1,0 +1,18 @@
+pratique_agricole,modalite,descriptif_mo,abreviation_mo,frequence,montant,gestionlutte,gestionrdt
+irrigation,irrigation,irrigation,irr,3,1,-1,2
+fertilisation,fertilisation,fertilisation,fer,2,1,0,2
+desherbage,desherbage,desherbage,dsb,2,2,1,0
+labour,labour,labour ,lab,1,2,1,1
+taille des manguiers,taille,taille et elagage pour reduire condition favorable Bd,tai,1,3,2,3
+bioinsecticides ,"huile de Neem, feuilles de Neem broyees, baume de cajou",biopesticides pour éliminer les mouches à tous les stades de développement,bio,2,2,1,0
+insecticides ,insecticides,pesticides pour éliminer les mouches à tous les stades de développement,ins,2,3,6,0
+prophylaxie ,"enfouissement, incineration, alimentation betail, sac poubelle, augmentorium",,pre,2,3,4,0
+prophylaxie ,depose des mangues en tas,,prc,2,3,-1,0
+piegeage de masse,malatrap,"75% de méthyl eugénol (paraphéromone)
+25% de malathion (insecticide organophosphoré)",pma,2,2,2,0
+piegeage de masse,muscade ou basilique et insecticide,Basilic/Noix de muscade + biopesticide,pba,2,2,1,0
+appat alimentaire,SuccessAppat/GF120,Bioinsecticide ou insecticide? à base de spinosad (0.24 g/l) mélangé à un hydrolysat de protéine (substance alimentaire),apg,2,2,2,0
+appat alimentaire,M3 bait station,Hydrolysat de protéine + alpha cyperméthrine,apm,2,2,1,0
+lutte biologique,parasitoïde,Fopius arisanus,lbf,1,4,2,0
+lutte biologique,entomopathogène,Metarhizium anisopliae,lbe,1,4,1,0
+lutte biologique,conservation nid fourmis tisserandes,Fourmi tisserande,lbn,1,0,4,0
